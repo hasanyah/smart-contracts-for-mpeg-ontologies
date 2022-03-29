@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import sampleRdf from "./assets/sample.rdf?raw";
 
-const apiResponse = ref("");
+const apiResponse = ref("API response will be shown here");
 computed: {
   console: () => console
 }
@@ -15,7 +15,6 @@ function parserMco() {
   axios.post("https://scm.linkeddata.es/api/parser/mco", sampleRdf, {headers})
   .then(response => Console.log(response))
   .catch(error => {
-    this.errorMessage = error.message;
     apiResponse.value = "The server responded: " + "\n" + error;
   });
 }
