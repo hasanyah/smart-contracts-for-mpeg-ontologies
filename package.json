@@ -4,12 +4,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 5050"
+    "preview": "vite preview --port 5050",
+    "postinstall": "npm run build",
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.26.1",
+    "express": "^4.17.3",
     "npm": "^8.5.5",
     "raw-loader": "^4.0.2",
+    "serve-static": "^1.15.0",
     "vue": "^3.2.31",
     "xml2js": "^0.4.23"
   },
