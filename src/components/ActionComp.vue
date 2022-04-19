@@ -5,5 +5,5 @@ export default {
 </script>
 
 <template>
-<Payment :title="title"/>
+<component :is="type" :title="title"/>
 </template>
