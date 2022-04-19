@@ -5,5 +5,5 @@ export default {
 </script>
 
 <template>
-<h3>{{ title }}</h3>
+<h4>{{ title }}</h4>
 </template>

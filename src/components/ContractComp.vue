@@ -39,30 +39,15 @@ const objects = [
 <h1>Contract</h1>
 
 <h2>Parties</h2>
-    <ul>
-        <li v-for="item in parties" v-bind:key="item">
-            <Party :title="item" />
-        </li>
-    </ul>
+    <Party v-for="item in parties" v-bind:key="item" :title="item" />
 
 <h2>Deontics</h2>
-    <ul>
-        <li v-for="item in deontics" v-bind:key="item">
-            <Deontic :title="item" />
-        </li>
-    </ul>
-
+    <Deontic v-for="item in deontics" v-bind:key="item" :title="item" />
+    
 <h2>Actions</h2>
-    <ul>
-        <li v-for="item in actions" v-bind:key="item">
-            <Action :type="item.type" :title="item.title" />
-        </li>
-    </ul>
-
+    <Action v-for="item in actions" v-bind:key="item" :type="item.type" :title="item.title" />
+    
 <h2>Objects</h2>
-    <ul>
-        <li v-for="item in objects" v-bind:key="item">
-            <ObjectComp :title="item" />
-        </li>
-    </ul>
+    <ObjectComp v-for="item in objects" v-bind:key="item" :title="item" />
+    
 </template>
