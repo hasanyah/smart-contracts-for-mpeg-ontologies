@@ -2,13 +2,9 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import sampleRdf from "./assets/sample.rdf?raw"
-import Contract from "./components/ContractComp.vue"
 
 const parserEndpoint = "https://scm.linkeddata.es/api/parser/mco"
 const apiResponse = ref("API response will be shown here");
-components: {
-  Contract
-}
 computed: {
   console: () => console
 }

@@ -1,15 +1,4 @@
 <script setup>
-import Party from "./PartyComp.vue"
-import Deontic from "./DeonticComp.vue"
-import Action from "./ActionComp.vue"
-import ObjectComp from "./ObjectComp.vue"
-
-components: {
-    Party,
-    Deontic,
-    Action,
-    ObjectComp
-}
 const parties = [
     "PerformingRighthsOrganisation",
     "Aggregator",
