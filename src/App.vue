@@ -3,17 +3,17 @@ import { ref } from 'vue'
 import axios from 'axios'
 import sampleRdf from "./assets/sample.rdf?raw";
 
+const parserEndpoint = "https://scm.linkeddata.es/api/parser/mco"
 const apiResponse = ref("API response will be shown here");
 computed: {
   console: () => console
 }
 function parserMco() {                   
-  // console.log(sampleRdf)
   const headers = {
-    'Content-Type' : 'plain/text'
+    'Content-Type' : 'text/plain'
   }
-  axios.post("https://scm.linkeddata.es/api/parser/mco", sampleRdf, {headers})
-  .then(response => Console.log(response))
+  axios.post(parserEndpoint, sampleRdf, {headers})
+  .then(response => apiResponse.value = "The server responded: " + "\n" + JSON.stringify(response.data, null, 2))
   .catch(error => {
     apiResponse.value = "The server responded: " + "\n" + error;
   });
@@ -29,7 +29,5 @@ function parserMco() {
     </div>
     <button @click="parserMco()">Send MCO Post Request</button>
   </header>
-  <div>
-    {{apiResponse}}
-  </div>
+  <pre>{{ apiResponse }}</pre>
 </template>
