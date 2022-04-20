@@ -11,8 +11,21 @@ const parties = [
 ]
 
 const deontics = [
-
-]
+    {type: "Obligation",          title: "Obligation1"},
+    {type: "Obligation",          title: "Obligation2"},
+    {type: "Obligation",          title: "Obligation3"},
+    {type: "Obligation",          title: "Obligation4"},
+    {type: "Obligation",          title: "Obligation5"},
+    {type: "Obligation",          title: "Obligation6"},
+    {type: "Obligation",          title: "Obligation7"},
+    {type: "Obligation",          title: "Obligation8"},
+    {type: "Obligation",          title: "Obligation9"},
+    {type: "MCOPermission",       title: "Permission1"},
+    {type: "MCOPermission",       title: "Permission2"},
+    {type: "MCOPermission",       title: "Permission3"},
+    {type: "MCOPermission",       title: "Permission4"},
+    {type: "MCOPermission",       title: "Permission6"},
+    ]
 
 const actions = [
     {type: "Play",          title: "Play1"},
@@ -42,7 +55,7 @@ const objects = [
     <Party v-for="item in parties" v-bind:key="item" :title="item" />
 
 <h2>Deontics</h2>
-    <Deontic v-for="item in deontics" v-bind:key="item" :title="item" />
+    <Deontic v-for="item in deontics" v-bind:key="item" :type="item.type" :title="item.title" />
     
 <h2>Actions</h2>
     <Action v-for="item in actions" v-bind:key="item" :type="item.type" :title="item.title" />

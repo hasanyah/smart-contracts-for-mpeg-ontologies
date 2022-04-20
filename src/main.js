@@ -14,6 +14,9 @@ import Play from "./components/PlayActionComp.vue"
 import Payment from "./components/PaymentActionComp.vue"
 import Distribute from "./components/DistributeActionComp.vue"
 
+import Obligation from "./components/DeonticCompObligation.vue"
+import MCOPermission from "./components/DeonticCompMCOPermission.vue"
+
 const app = createApp(App)
 app.component('Contract', Contract)
 app.component('Party', Party)
@@ -24,5 +27,7 @@ app.component('Provide', Provide)
 app.component('Play', Play)
 app.component('Payment', Payment)
 app.component('Distribute', Distribute)
+app.component('Obligation', Obligation)
+app.component('MCOPermission', MCOPermission)
 
 app.mount('#app')

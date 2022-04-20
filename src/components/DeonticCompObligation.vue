@@ -1,10 +1,9 @@
 <script setup>
 const props = defineProps({
-        title: String,
-        type: String
+        title: String
     })
 </script>
 
 <template>
-<component :is="type" :title="title"/>
+<h4>{{ title }}</h4>
 </template>
