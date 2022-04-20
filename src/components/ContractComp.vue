@@ -1,6 +1,6 @@
 <script setup>
 const parties = [
-    "PerformingRighthsOrganisation",
+    "PerformingRightsOrganisation",
     "Aggregator",
     "Author",
     "Publisher",
@@ -51,16 +51,17 @@ const objects = [
 <template>
 <h1>Contract</h1>
 
-<h2>Parties</h2>
+<h2 class="bg-secondary text-white">Parties</h2>
+
     <Party v-for="item in parties" v-bind:key="item" :title="item" />
 
-<h2>Deontics</h2>
+<h2 class="bg-secondary text-white">Deontics</h2>
     <Deontic v-for="item in deontics" v-bind:key="item" :type="item.type" :title="item.title" />
     
-<h2>Actions</h2>
+<h2 class="bg-secondary text-white">Actions</h2>
     <Action v-for="item in actions" v-bind:key="item" :type="item.type" :title="item.title" />
     
-<h2>Objects</h2>
+<h2 class="bg-secondary text-white">Objects</h2>
     <ObjectComp v-for="item in objects" v-bind:key="item" :title="item" />
     
 </template>
