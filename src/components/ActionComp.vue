@@ -1,7 +1,8 @@
-<script>
-export default {
-    props: ['title', 'type']
-}
+<script setup>
+const props = defineProps({
+        title: String,
+        type: String
+    })
 </script>
 
 <template>
