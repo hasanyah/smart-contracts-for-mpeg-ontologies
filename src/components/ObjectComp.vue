@@ -1,9 +1,9 @@
 <script setup>
 const props = defineProps({
-        title: String
+        data: Object
     })
 </script>
 
 <template>
-<h4>{{ title }}</h4>
+<h4>{{ data.metadata["rdfs:label"] }} - {{ data.class }}</h4>
 </template>

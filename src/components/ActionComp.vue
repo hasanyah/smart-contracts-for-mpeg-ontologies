@@ -1,10 +1,9 @@
 <script setup>
 const props = defineProps({
-        title: String,
-        type: String
+        data: Object
     })
 </script>
 
 <template>
-<component :is="type" :title="title"/>
+<component :is="data.class" :data="data.identifier"/>
 </template>

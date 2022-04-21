@@ -17,6 +17,8 @@ import Distribute from "./components/ActionCompDistribute.vue"
 import Obligation from "./components/DeonticCompObligation.vue"
 import MCOPermission from "./components/DeonticCompMCOPermission.vue"
 
+import FormSection from "./components/FormSectionComp.vue"
+
 const app = createApp(App)
 app.component('Contract', Contract)
 app.component('Party', Party)
@@ -29,5 +31,6 @@ app.component('Payment', Payment)
 app.component('Distribute', Distribute)
 app.component('Obligation', Obligation)
 app.component('MCOPermission', MCOPermission)
+app.component('FormSection', FormSection)
 
 app.mount('#app')

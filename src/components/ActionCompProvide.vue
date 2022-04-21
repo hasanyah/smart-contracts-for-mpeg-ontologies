@@ -1,9 +1,9 @@
 <script setup>
 const props = defineProps({
-        title: String
+        data: String
     })
 </script>
 
 <template>
-<h4>{{ title }}</h4>
+<h4>{{ data }}</h4>
 </template>
