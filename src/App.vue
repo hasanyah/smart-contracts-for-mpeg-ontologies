@@ -30,10 +30,11 @@ function parserMco() {
     <button @click="parserMco()">Send MCO Post Request</button> -->
   </header>
   <!-- <pre>{{ apiResponse }}</pre> -->
-  <Contract />
+  <Contract :data="contract"/>
 </template>
 <script>
-const parties = {
+const contract = {
+"parties": {
 "http://mpeg.org/PerformingRighthsOrganisation": {
     "class": "Party",
     "identifier": "http://mpeg.org/PerformingRighthsOrganisation",
@@ -146,9 +147,8 @@ const parties = {
     "deonticsIssued": [
     "http://mpeg.org/obligation3"
     ]
-}
-}
-const deontics = {
+}},
+"deontics": {
 "http://mpeg.org/obligation2": {
     "class": "Obligation",
     "type": "Obligation",
@@ -337,9 +337,8 @@ const deontics = {
     "issuer": "http://mpeg.org/StreamingService",
     "act": "http://mpeg.org/pay7",
     "actedBySubject": "http://mpeg.org/MechanicalLicenseAgent"
-}
-}
-const actions = {
+}},
+"actions": {
 "http://mpeg.org/action3": {
     "class": "Provide",
     "type": "Provide",
@@ -463,9 +462,8 @@ const actions = {
     "http://mpeg.org/Publisher"
     ],
     "incomePercentage": 50
-}
-}
-const objects = {
+}},
+"objects": {
 "http://mpeg.org/Song": {
     "class": "Work",
     "type": "Work",
@@ -473,13 +471,5 @@ const objects = {
     "metadata": {
     "rdfs:label": "SONG"
     }
-}
-}
-
-const contract = {
-  "parties": parties,
-  "objects": objects,
-  "actions": actions,
-  "deontics": deontics
-}
+}}}
 </script>
