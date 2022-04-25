@@ -9,9 +9,9 @@
 
 <script setup>
 const parties = {
-"http://mpeg.org/PerformingRighthsOrganisation": {
+"http://mpeg.org/PerformingRightsOrganisation": {
     "class": "Party",
-    "identifier": "http://mpeg.org/PerformingRighthsOrganisation",
+    "identifier": "http://mpeg.org/PerformingRightsOrganisation",
     "metadata": {
     "rdfs:label": "PERFORMING RIGHTS ORGANISATION"
     }
@@ -396,7 +396,7 @@ const actions = {
     "identifier": "http://mpeg.org/pay3",
     "actedBy": "http://mpeg.org/StreamingService",
     "beneficiaries": [
-    "http://mpeg.org/PerformingRighthsOrganisation"
+    "http://mpeg.org/PerformingRightsOrganisation"
     ],
     "incomePercentage": 1
 },

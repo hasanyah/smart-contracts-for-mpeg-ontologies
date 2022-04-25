@@ -5,5 +5,5 @@ const props = defineProps({
 </script>
 
 <template>
-<component :is="data.class" :data="data.identifier"/>
+<component :is="data.class" :data="data"/>
 </template>
