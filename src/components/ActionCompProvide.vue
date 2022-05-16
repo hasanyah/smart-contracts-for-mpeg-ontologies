@@ -10,7 +10,7 @@ const props = defineProps({
 <p>ActedBy: {{ data.actedBy }} </p>
 <p>ActedOver:  </p>
 <ul>
-    <li v-for="item in data.actedOver" v-bind:key="item">
+    <li v-for="item in data.actedOver" :key="item">
         {{item}}
     </li>
 </ul>

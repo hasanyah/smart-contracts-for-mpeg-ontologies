@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import Contract from "./components/ContractComp.vue"
 import Party from "./components/PartyComp.vue"
@@ -18,8 +19,12 @@ import Obligation from "./components/DeonticCompObligation.vue"
 import MCOPermission from "./components/DeonticCompMCOPermission.vue"
 
 import FormSection from "./components/FormSectionComp.vue"
+import FormSectionRow from "./components/FormSectionRowComp.vue"
+import FormSectionCard from "./components/FormSectionCardComp.vue"
 
 const app = createApp(App)
+app.component("font-awesome-icon", FontAwesomeIcon);
+
 app.component('Contract', Contract)
 app.component('Party', Party)
 app.component('Deontic', Deontic)
@@ -32,5 +37,7 @@ app.component('Distribute', Distribute)
 app.component('Obligation', Obligation)
 app.component('MCOPermission', MCOPermission)
 app.component('FormSection', FormSection)
+app.component('FormSectionRow', FormSectionRow)
+app.component('FormSectionCard', FormSectionCard)
 
 app.mount('#app')

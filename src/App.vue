@@ -2,9 +2,16 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import sampleRdf from "./assets/sample.rdf?raw"
-
+import _ from 'lodash';
+const props = defineProps({
+        mainContract: Object
+    })
 const parserEndpoint = "https://scm.linkeddata.es/api/parser/mco"
 const apiResponse = ref("API response will be shown here");
+const emptyContract = {"parties": [], "deontics": [], "actions": [], "objects": []}
+const mainContract = ref({});
+resetData()
+const file = ref(null)
 computed: {
   console: () => console
 }
@@ -18,22 +25,50 @@ function parserMco() {
     apiResponse.value = "The server responded: " + "\n" + error;
   });
 }
+
+function loadSampleData() {
+    mainContract.value = mainContract.value = _.cloneDeep(sampleContract);
+}
+function resetData() {
+    mainContract.value = _.cloneDeep(emptyContract);
+}
+const handleFileUpload = async() => {
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+        const result = event.target.result;
+        console.log(result)
+        mainContract.value = _.cloneDeep(JSON.parse(result).contracts[0]);
+    });
+    reader.readAsText(file.value.files[0]);
+}
+function addParty(party) {
+    console.log("Adding party")
+    mainContract.value.parties.push({"class": "Party", "identifier": party.address, "metadata": {"rdfs:label": party.name}})
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <header>
+    <!-- <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" /> -->
 
     <!-- <div class="wrapper">
-      Hello World in Vue
+        Hello World in Vue
     </div>
     <button @click="parserMco()">Send MCO Post Request</button> -->
-  </header>
-  <!-- <pre>{{ apiResponse }}</pre> -->
-  <Contract :data="contract"/>
+    </header>
+    <!-- <pre>{{ apiResponse }}</pre> -->
+    <h1 class="text-center">Sample Music Contract</h1>
+    <div class="d-flex flex-row justify-content-center clearfix">
+        <button class="btn btn-labeled btn-secondary float-left" @click="loadSampleData()">Load Sample Data</button>
+        <button class="btn btn-labeled btn-secondary float-right" @click="resetData()">Reset Data</button>
+    </div>
+    <div class="d-flex flex-row justify-content-center">
+        <input ref="file" class="custom-file-input" id="customFileInput" v-on:change="handleFileUpload()"  type="file">
+    </div>
+    <Contract :data="mainContract" @party-added="addParty"/>
 </template>
 <script>
-const contract = {
+var sampleContract = {
 "parties": {
 "http://mpeg.org/PerformingRighthsOrganisation": {
     "class": "Party",
@@ -469,7 +504,22 @@ const contract = {
     "type": "Work",
     "identifier": "http://mpeg.org/Song",
     "metadata": {
-    "rdfs:label": "SONG"
+    "rdfs:label": "Through her eyes"
     }
 }}}
 </script>
+
+<style>
+img {  
+    max-width: 200%;  
+    max-width: 32px;  
+}
+
+h2 {
+    display: inline;
+}
+
+.btn-labeled {
+	margin: 10px;
+}
+</style>

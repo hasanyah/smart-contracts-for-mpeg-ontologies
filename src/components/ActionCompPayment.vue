@@ -11,7 +11,7 @@ const props = defineProps({
 <span v-if="data.actedOver">
 <p>ActedOver:  </p>
 <ul>
-    <li v-for="item in data.actedOver" v-bind:key="item">
+    <li v-for="item in data.actedOver" :key="item">
         {{item}}
     </li>
 </ul>
@@ -19,7 +19,7 @@ const props = defineProps({
 <span v-if="data.beneficiaries">
 <p>Beneficiaries:  </p>
 <ul>
-    <li v-for="item in data.beneficiaries" v-bind:key="item">
+    <li v-for="item in data.beneficiaries" :key="item">
         {{item}}
     </li>
 </ul>
