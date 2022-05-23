@@ -13,7 +13,11 @@ library.add(faCircleInfo)
 
 <template>
 <div class="mx-5">
-<p>{{ data.metadata["rdfs:label"] }} <span><font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="data.identifier" :icon="['fas', 'circle-info']" /></span></p>
-<FormSectionCard :data="data" :type="type" @party-added="addParty"/>
+    <p><span>
+            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="data.identifier" :icon="['fas', 'circle-info']" />
+        </span> 
+        {{ data.metadata["rdfs:label"] }}
+    </p>
+    <FormSectionCard :data="data" :type="type" @party-added="addParty"/>
 </div>
 </template>

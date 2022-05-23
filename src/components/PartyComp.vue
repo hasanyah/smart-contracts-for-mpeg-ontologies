@@ -1,7 +1,10 @@
 <script setup>
+import { storeToRefs } from 'pinia'
+import { useContractStore } from '../store/contract'
 const props = defineProps({
         data: Object
     })
+const { parties, loading } = storeToRefs(useContractStore())
 </script>
 
 <template>
