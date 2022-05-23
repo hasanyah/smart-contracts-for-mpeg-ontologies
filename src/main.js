@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import router from './router/router'
-import { markRaw } from 'vue'
 
 import App from './App.vue'
 
@@ -29,11 +28,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // import FormSectionCard from "./components/FormSectionCardComp.vue"
 
 const app = createApp(App)
-const pinia = createPinia()
-pinia.use(({ store }) => {
-    store.router = markRaw(router)
-})
-app.use(pinia)
+app.use(createPinia())
 app.use(router)
 app.component("font-awesome-icon", FontAwesomeIcon);
 
