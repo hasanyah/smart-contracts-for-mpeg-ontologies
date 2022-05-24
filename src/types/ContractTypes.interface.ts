@@ -1,5 +1,6 @@
 export interface Contract {
     versions: Version[];
+    name: string;
 }
 
 export interface Version {
@@ -8,6 +9,9 @@ export interface Version {
     deontics: Deontic[];
     actions: Action[];
     ipObjects: IPObject[];
+    signedBy: number[];
+    status: string;
+    created: Date;
 }
 
 export interface Party {

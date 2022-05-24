@@ -6,7 +6,7 @@ export const useUserStore = defineStore({
         name: "unknown"
     }),
     actions: {
-        async setUser(name) {
+        async setUser(name: string) {
             if (name !== this.name) {
                 this.name = name
             }
