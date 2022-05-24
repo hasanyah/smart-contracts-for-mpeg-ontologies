@@ -1,6 +1,7 @@
 export interface Contract {
     versions: Version[];
     name: string;
+    creator: string;
 }
 
 export interface Version {

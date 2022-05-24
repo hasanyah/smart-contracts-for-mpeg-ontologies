@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useContractStore } from '../stores/contract';
+import { useUserStore } from '../stores/user';
 import { Contract, Version } from '../types/ContractTypes.interface'
 import { storeToRefs } from "pinia";
 
 const tableHeaders = ['Name', 'Status', 'Created', 'Last Edited']
+
+const { name } = storeToRefs(useUserStore())
 const contractStore = useContractStore();    
-const { contracts } = storeToRefs(contractStore);
+const { contracts } = storeToRefs(useContractStore());
 const count = ref<number>(0);
 
 const getCreatedDate = contractStore.getCreatedDate; 
@@ -26,6 +29,7 @@ function createItem() {
     console.log("clicked")
     let mContract = {
         name: 'mContract'+count.value,
+        creator: name.value,
         versions : [
             {
                 versionNumber : 0,
