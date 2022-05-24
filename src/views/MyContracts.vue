@@ -6,11 +6,12 @@ import { storeToRefs } from "pinia";
 import { useContractStore } from '../stores/contract';
 import { Contract } from '../types/ContractTypes.interface'
 
-const tableHeaders = ['Name', 'Status', 'Created', 'Last Edited']
+const tableHeaders = ['Name', 'Status', 'Created', 'Last Edited', 'Creator']
 const { loggedInUser } = storeToRefs(useUserStore())
 const contractStore = useContractStore();    
-const { localContracts } = storeToRefs(useContractStore());
+const { getContractsBelongingToTheUser } = storeToRefs(useContractStore());
 const count = ref<number>(0);
+
 const getCreatedDate = contractStore.getCreatedDate; 
 const getLastModifiedDate = contractStore.getLastModifiedDate; 
 
@@ -25,7 +26,6 @@ function oldDate() {
 }
 
 function createItem() {
-    console.log("clicked")
     let mContract = {
         name: 'mContract'+count.value,
         creator: loggedInUser.value,
@@ -54,7 +54,6 @@ function createItem() {
     }
     contractStore.createNewContract(mContract);
     count.value++;
-    console.log("count: " + count.value)
 }
 
 function deleteContract(name: string) {
@@ -71,11 +70,12 @@ function deleteContract(name: string) {
             <th/>
         </thead>
         <tbody>
-            <tr v-for="contract in localContracts" :key='contract.name'>
+            <tr v-for="contract in getContractsBelongingToTheUser" :key='contract.name'>
                 <td>{{ contract.name }}</td>
                 <td>{{ contract.versions[0].status }}</td>
                 <td>{{ getCreatedDate(contract.name) }}</td>
                 <td>{{ getLastModifiedDate(contract.name) }}</td>
+                <td>{{ contract.creator }}</td>
                 <td><button @click="deleteContract(contract.name)">Delete</button></td>
             </tr>
         </tbody>
