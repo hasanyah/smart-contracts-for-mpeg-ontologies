@@ -1,14 +1,15 @@
 <script setup lang="ts">
+
 import { RouterLink  } from 'vue-router'
-import { storeToRefs } from 'pinia'
 import { useUserStore } from '../stores/user'
+import { storeToRefs } from 'pinia'
 import router from '../router/router'
 
-const { name } = storeToRefs(useUserStore())
+const { loggedInUser } = storeToRefs(useUserStore())
 const { setUser } = useUserStore()
 
 function changeUser(userName) {
-    if (name !== userName) {
+    if (loggedInUser !== userName) {
         setUser(userName)
         router.push('/')
     }
@@ -29,7 +30,7 @@ library.add({faHouse, faFileContract, faFileCirclePlus})
         <div class="dropdown pb-4">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://avatars.githubusercontent.com/u/3333746?v=4" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                <span class="d-none d-sm-inline mx-1">User - <br/> {{ name }}</span>
+                <span class="d-none d-sm-inline mx-1">User - <br/> {{ loggedInUser }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                 <li><a class="dropdown-item" href="#" @click="changeUser('Creator')">Creator</a></li>

@@ -1,17 +1,16 @@
 <script setup lang="ts">
+
 import { ref } from 'vue'
-import { useContractStore } from '../stores/contract';
 import { useUserStore } from '../stores/user';
-import { Contract, Version } from '../types/ContractTypes.interface'
 import { storeToRefs } from "pinia";
+import { useContractStore } from '../stores/contract';
+import { Contract } from '../types/ContractTypes.interface'
 
 const tableHeaders = ['Name', 'Status', 'Created', 'Last Edited']
-
-const { name } = storeToRefs(useUserStore())
+const { loggedInUser } = storeToRefs(useUserStore())
 const contractStore = useContractStore();    
-const { contracts } = storeToRefs(useContractStore());
+const { localContracts } = storeToRefs(useContractStore());
 const count = ref<number>(0);
-
 const getCreatedDate = contractStore.getCreatedDate; 
 const getLastModifiedDate = contractStore.getLastModifiedDate; 
 
@@ -29,7 +28,7 @@ function createItem() {
     console.log("clicked")
     let mContract = {
         name: 'mContract'+count.value,
-        creator: name.value,
+        creator: loggedInUser.value,
         versions : [
             {
                 versionNumber : 0,
@@ -72,7 +71,7 @@ function deleteContract(name: string) {
             <th/>
         </thead>
         <tbody>
-            <tr v-for="contract in contracts" :key='contract.name'>
+            <tr v-for="contract in localContracts" :key='contract.name'>
                 <td>{{ contract.name }}</td>
                 <td>{{ contract.versions[0].status }}</td>
                 <td>{{ getCreatedDate(contract.name) }}</td>

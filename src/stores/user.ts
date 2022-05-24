@@ -3,12 +3,12 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore({
     id: 'user',
     state: () => ({
-        name: "unknown"
+        loggedInUser: "unknown"
     }),
     actions: {
         setUser(name: string) {
-            if (name !== this.name) {
-                this.name = name
+            if (name !== this.loggedInUser) {
+                this.loggedInUser = name
             }
         },
     }
