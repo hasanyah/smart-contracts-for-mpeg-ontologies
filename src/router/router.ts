@@ -13,7 +13,7 @@ const router = createRouter({
         component: MainView
       },
       {
-        path: '/contract',
+        path: '/contract/:contractid',
         name: 'contract',
         component: ContractView
       },

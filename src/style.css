@@ -11,5 +11,5 @@ h2 {
 	margin: 10px;
 }
 
-.sidebar
-a:hover, a:visited { color:#ffffff !important; }
+.sidebar a:hover, 
+.sidebar a:visited { color:#ffffff !important; }

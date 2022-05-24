@@ -1,14 +1,20 @@
-<script setup>
+<script setup lang="ts">
+import { ref } from "vue";
+import { useContractStore } from "../stores/contract";
+import { Contract } from "../types/ContractTypes.interface";
+import { storeToRefs } from "pinia";
+
+const contractStore = useContractStore();
+const { selectedContract } = storeToRefs(useContractStore());
+const contractToView = ref<Contract>();
+const getContractByName = contractStore.getContractByName;
+contractToView.value = getContractByName(selectedContract.value);
 </script>
 
 <template>
-  <h1 class="text-center">Sample Music Contract</h1>
-  <div class="d-flex flex-row justify-content-center clearfix">
-      <button class="btn btn-labeled btn-secondary float-left" @click="loadSampleData()">Load Sample Data</button>
-      <button class="btn btn-labeled btn-secondary float-right" @click="resetData()">Reset Data</button>
-  </div>
-  <div class="d-flex flex-row justify-content-center">
-      <input ref="file" class="custom-file-input" id="customFileInput" v-on:change="handleFileUpload()"  type="file">
-  </div>
-  <Contract :data="mainContract" @party-added="addParty"/>
+    <h1 class="text-center">Contract: {{ contractToView.name }}</h1>
+    <div class="m-5">
+        <FormSectionComp title="Parties"/>
+        <FormSectionComp title="Objects"/>
+    </div>
 </template>

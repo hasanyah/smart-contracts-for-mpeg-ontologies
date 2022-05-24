@@ -5,7 +5,8 @@ import { Contract } from '../types/ContractTypes.interface'
 export const useContractStore = defineStore({
     id: 'contract',
     state: () => ({
-        localContracts: []
+        localContracts: [],
+        selectedContract: ''
     }),
     getters: {
         getCreatedDate: (state) => {
@@ -27,8 +28,16 @@ export const useContractStore = defineStore({
             });
             return contracts;
         },
+        getContractByName: (state) => {
+            return (contractName: string): Contract => {
+                return state.localContracts.find((contract) => contract.name === contractName);
+            }
+        }
     },
     actions: {
+        setSelectedContract(name: string) {
+            this.selectedContract = name;
+        },
         createNewContract(newContract: Contract) {
             this.localContracts.push(newContract);
         },

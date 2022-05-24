@@ -23,9 +23,9 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // import Obligation from "./components/DeonticCompObligation.vue"
 // import MCOPermission from "./components/DeonticCompMCOPermission.vue"
 
-// import FormSection from "./components/FormSectionComp.vue"
-// import FormSectionRow from "./components/FormSectionRowComp.vue"
-// import FormSectionCard from "./components/FormSectionCardComp.vue"
+import FormSectionComp from "./components/FormSectionComp.vue"
+import FormSectionRowComp from "./components/FormSectionRowComp.vue"
+import FormSectionCardComp from "./components/FormSectionCardComp.vue"
 
 const app = createApp(App)
 app.use(createPinia())
@@ -43,8 +43,8 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 // app.component('Distribute', Distribute)
 // app.component('Obligation', Obligation)
 // app.component('MCOPermission', MCOPermission)
-// app.component('FormSection', FormSection)
-// app.component('FormSectionRow', FormSectionRow)
-// app.component('FormSectionCard', FormSectionCard)
+app.component('FormSectionComp', FormSectionComp)
+app.component('FormSectionRowComp', FormSectionRowComp)
+app.component('FormSectionCardComp', FormSectionCardComp)
 
 app.mount('#app')
