@@ -2,11 +2,11 @@
 import { ref } from 'vue'
 import { useContractStore } from '../stores/contract';
 import { Contract, Version } from '../types/ContractTypes.interface'
+import { storeToRefs } from "pinia";
 
 const tableHeaders = ['Name', 'Status', 'Created', 'Last Edited']
-const contracts = ref<Contract[]>([]);
 const contractStore = useContractStore();    
-contracts.value = contractStore.contracts;
+const { contracts } = storeToRefs(contractStore);
 const count = ref<number>(0);
 
 function currentDate() {
