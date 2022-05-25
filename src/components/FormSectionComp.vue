@@ -29,7 +29,7 @@ library.add(faCirclePlus)
 </h2>
 
 <div>
-    <FormSectionRow v-for="item in data" :key="item" :data="item" :type="type"/>
+    <FormSectionRowComp v-for="item in data" :key="item" :data="item" :type="type"/>
     <!-- <component :is="type" v-for="item in data" :key="item" :data="item"/> -->
 </div>
 

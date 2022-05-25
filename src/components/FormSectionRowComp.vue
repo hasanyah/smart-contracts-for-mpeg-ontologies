@@ -18,6 +18,6 @@ library.add(faCircleInfo)
         </span> 
         {{ data.metadata["rdfs:label"] }}
     </p>
-    <FormSectionCard :data="data" :type="type" @party-added="addParty"/>
+    <FormSectionCardComp :data="data" :type="type" @party-added="addParty"/>
 </div>
 </template>

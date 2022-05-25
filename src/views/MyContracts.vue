@@ -32,21 +32,104 @@ function createItem() {
         versions : [
             {
                 versionNumber : 0,
-                parties: [],
+                parties: [
+                    {
+                        class: 'Creator',
+                        role: 'Creator',
+                        identifier: 'creatorId',
+                        metadata: {
+                            "rdfs:label": 'Name Surname'
+                        },
+                        deonticsIssued: ['p4'],
+                        actionsIsSubject: [],
+                    },
+                    {
+                        class: 'Distributor',
+                        role: 'Distributor',
+                        identifier: 'distributorId',
+                        metadata: {
+                            "rdfs:label": 'Name Surname (Dist)'
+                        },
+                        deonticsIssued: ['p4', 'o1'],
+                        actionsIsSubject: ['a5'],
+                    },
+                    {
+                        class: 'Distributor',
+                        role: 'Distributor',
+                        identifier: 'streamingServiceId',
+                        metadata: {
+                            "rdfs:label": 'Streaming Service'
+                        },
+                        deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'o9', 'p1'],
+                        actionsIsSubject: ['a2', 'p2', 'p3', 'p4'],
+                    }
+                ],
                 deontics: [],
                 actions: [],
                 ipObjects: [],
-                signedBy: [],
+                signedBy: ['Creator'],
+                requiredSignatures: ['Creator', 'Streaming Service'],
                 status: 'Pending',
                 created: oldDate()
             },
             {
                 versionNumber : 1,
-                parties: [],
+                parties: [
+                    {
+                        class: 'Creator',
+                        role: 'Creator',
+                        identifier: 'creatorId',
+                        metadata: {
+                            "rdfs:label": 'Name Surname'
+                        },
+                        deonticsIssued: ['p4'],
+                        actionsIsSubject: [],
+                    },
+                    {
+                        class: 'Distributor',
+                        role: 'Distributor',
+                        identifier: 'distributorId',
+                        metadata: {
+                            "rdfs:label": 'Name Surname (Dist)'
+                        },
+                        deonticsIssued: ['p4', 'o1'],
+                        actionsIsSubject: ['a5'],
+                    },
+                    {
+                        class: 'Distributor',
+                        role: 'Distributor',
+                        identifier: 'streamingServiceId',
+                        metadata: {
+                            "rdfs:label": 'Streaming Service'
+                        },
+                        deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'o9', 'p1'],
+                        actionsIsSubject: ['a2', 'p2', 'p3', 'p4'],
+                    },
+                    {
+                        class: 'EndUser',
+                        role: 'EndUser',
+                        identifier: 'endUserId',
+                        metadata: {
+                            "rdfs:label": 'Consumer'
+                        },
+                        deonticsIssued: ['o3'],
+                        actionsIsSubject: ['a1', 'p1'],
+                    }
+                ],
                 deontics: [],
                 actions: [],
-                ipObjects: [],
-                signedBy: [],
+                ipObjects: [
+                    {
+                        class: 'Work',
+                        type: 'Work',
+                        identifier: 'songId',
+                        metadata: {
+                            "rdfs:label": 'Frantic by Metallica'
+                        },
+                    }
+                ],
+                signedBy: ['Creator'],
+                requiredSignatures: ['Creator', 'Streaming Service'],
                 status: 'Pending',
                 created: currentDate()
             }
@@ -62,7 +145,6 @@ function deleteContract(name: string) {
 
 function setSelectedContract(name: string) {
     contractStore.setSelectedContract(name)
-    console.log(selectedContract.value)
 }
 
 </script>

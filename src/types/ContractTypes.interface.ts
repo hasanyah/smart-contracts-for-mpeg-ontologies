@@ -10,7 +10,8 @@ export interface Version {
     deontics: Deontic[];
     actions: Action[];
     ipObjects: IPObject[];
-    signedBy: number[];
+    signedBy: string[];
+    requiredSignatures: string[];
     status: string;
     created: Date;
 }
@@ -20,8 +21,8 @@ export interface Party {
     role: string;
     identifier: string;
     metadata: Metadata;
-    deonticsIssued: number[];
-    actionsIsSubject: number[];
+    deonticsIssued: string[];
+    actionsIsSubject: string[];
 }
 
 export interface Deontic {
@@ -54,4 +55,9 @@ export interface IPObject {
 
 export interface Metadata {
     "rdfs:label": String;
+}
+
+export interface VersionSummary {
+    date: string;
+    versionNumber: number;
 }

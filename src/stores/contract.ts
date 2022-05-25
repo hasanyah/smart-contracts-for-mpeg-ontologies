@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
-import { Contract } from '../types/ContractTypes.interface'
+import { Contract, VersionSummary } from '../types/ContractTypes.interface'
 
 export const useContractStore = defineStore({
     id: 'contract',
@@ -32,6 +32,15 @@ export const useContractStore = defineStore({
             return (contractName: string): Contract => {
                 return state.localContracts.find((contract) => contract.name === contractName);
             }
+        },
+        getVersionListByContractName(): VersionSummary[] {
+            let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
+            let versions = [];
+            contract.versions.forEach(element => {
+                versions.push({date: element.created, versionNumber: element.versionNumber})
+            });
+
+            return versions;
         }
     },
     actions: {
