@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { RouterView } from 'vue-router'
 import SideMenuComp from './components/SideMenuComp.vue'
 // import { ref } from 'vue'
@@ -45,10 +45,6 @@ import SideMenuComp from './components/SideMenuComp.vue'
 //         mainContract.value = _.cloneDeep(JSON.parse(result).contracts[0]);
 //     });
 //     reader.readAsText(file.value.files[0]);
-// }
-// function addParty(party) {
-//     console.log("Adding party")
-//     mainContract.value.parties.push({"class": "Party", "identifier": party.address, "metadata": {"rdfs:label": party.name}})
 // }
 </script>
 

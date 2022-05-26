@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps({
         data: Object,
-        type: String
+        objtype: String
     })
 </script>
 
@@ -24,6 +24,6 @@ library.add(faXmark)
         </button>
     </div>
     <div></div>
-    <component :is="type+'Comp'" :data="data"/>
+    <component :is="objtype+'Comp'" :data="data"/>
 </div>
 </template>

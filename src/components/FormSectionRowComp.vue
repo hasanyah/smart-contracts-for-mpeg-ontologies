@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps({
         data: Object,
-        type: String
+        objtype: String
     })
 </script>
 
@@ -22,7 +22,7 @@ library.add(faCircleInfo)
 
     </div>
     <div class="col-lg-8">
-        <FormSectionCardComp :data="data" :type="type"/>
+        <FormSectionCardComp :data="data" :objtype="objtype"/>
     </div>
 </div>
 </template>

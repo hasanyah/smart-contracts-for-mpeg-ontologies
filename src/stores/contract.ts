@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
-import { Contract, VersionSummary, Party } from '../types/ContractTypes.interface'
+import { Contract, VersionSummary, Party, IPObject } from '../types/ContractTypes.interface'
 
 export const useContractStore = defineStore({
     id: 'contract',
     state: () => ({
         localContracts: [],
         selectedContract: '',
-        parties: [],
-        ipObjects: []
+        selectedVersion: -1,
+        comparedVersion: 0
     }),
     getters: {
         getCreatedDate: (state) => {
@@ -49,6 +49,12 @@ export const useContractStore = defineStore({
         setSelectedContract(name: string) {
             this.selectedContract = name;
         },
+        setSelectedVersion(num: number) {
+            this.selectedVersion = num;
+        },
+        setComparedVersion(num: number) {
+            this.comparedVersion = num;
+        },
         createNewContract(newContract: Contract) {
             this.localContracts.push(newContract);
         },
@@ -56,6 +62,14 @@ export const useContractStore = defineStore({
             this.localContracts = this.localContracts.filter((contract) => {
                 return contract.name !== name;
             });
+        },
+        addParty(party: Party) {
+            let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
+            contract.versions.at(-1).parties.push(party)
+        },
+        addIPObject(ipObject: IPObject) {
+            let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
+            contract.versions.at(-1).ipObjects.push(ipObject)
         }
     }
 })

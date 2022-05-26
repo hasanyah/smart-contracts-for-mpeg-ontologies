@@ -27,7 +27,27 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.5.4",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
     "@vitejs/plugin-vue": "^2.2.2",
+    "eslint": "^8.16.0",
+    "eslint-plugin-vue": "^9.0.1",
     "vite": "^2.8.6"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "@babel/eslint-parser",
+      "requireConfigFile": false
+    }
   }
 }
