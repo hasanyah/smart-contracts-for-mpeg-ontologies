@@ -11,7 +11,7 @@ const { setUser } = useUserStore()
 function changeUser(userName) {
     if (loggedInUser !== userName) {
         setUser(userName)
-        // router.push('/')
+        router.push('/')
     }
 }
 

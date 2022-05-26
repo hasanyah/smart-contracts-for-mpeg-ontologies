@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
-import { Contract, VersionSummary } from '../types/ContractTypes.interface'
+import { Contract, VersionSummary, Party } from '../types/ContractTypes.interface'
 
 export const useContractStore = defineStore({
     id: 'contract',
     state: () => ({
         localContracts: [],
-        selectedContract: ''
+        selectedContract: '',
+        parties: [],
+        ipObjects: []
     }),
     getters: {
         getCreatedDate: (state) => {

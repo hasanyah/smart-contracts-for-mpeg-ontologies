@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainView from '../views/Main.vue'
-import ContractView from '../views/Contract.vue'
+import ContractView from '../views/ContractView.vue'
 import CreateNewContractView from '../views/CreateNewContract.vue'
 import MyContractsView from '../views/MyContracts.vue'
 

@@ -1,10 +1,10 @@
 <script setup>
 import { storeToRefs } from 'pinia'
-import { useContractStore } from '../store/contract'
+import { useContractStore } from '../stores/contract'
 const props = defineProps({
         data: Object
     })
-const { parties, loading } = storeToRefs(useContractStore())
+const { parties } = storeToRefs(useContractStore())
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const { parties, loading } = storeToRefs(useContractStore())
             <span v-else><em>N/A</em></span>
         </div>
     </div>
-    <span v-if="data.deonticsIssued">
+    <span v-if="data.deonticsIssued && data.deonticsIssued.length > 0">
         <p><strong>Deontics Issued: </strong></p>
         <ul>
             <li v-for="item in data.deonticsIssued" :key="item">
@@ -27,7 +27,7 @@ const { parties, loading } = storeToRefs(useContractStore())
             </li>
         </ul>
     </span>
-    <span v-if="data.actionsIsSubject">
+    <span v-if="data.actionsIsSubject && data.actionsIsSubject.length > 0">
         <p><strong>Subject to following actions: </strong></p>
         <ul>
             <li v-for="item in data.actionsIsSubject" :key="item">

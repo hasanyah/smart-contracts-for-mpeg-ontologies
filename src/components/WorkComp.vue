@@ -6,7 +6,10 @@ const props = defineProps({
 
 <template>
 <div>
-<!-- <h4>{{ data.metadata["rdfs:label"] }} - {{ data.class }}</h4> -->
+    <div class="row">
+        <div class="col">
+            Type: {{ data.class }}
+        </div>
+    </div>
 </div>
-{{data}}
 </template>

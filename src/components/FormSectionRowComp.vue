@@ -12,12 +12,17 @@ library.add(faCircleInfo)
 </script>
 
 <template>
-<div class="mx-5">
-    <p><span>
-            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="data.identifier" :icon="['fas', 'circle-info']" />
-        </span> 
-        {{ data.metadata["rdfs:label"] }}
-    </p>
-    <FormSectionCardComp :data="data" :type="type" @party-added="addParty"/>
+<div class="row">
+    <div class="col-lg-4">
+        <p><span>
+                <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="data.identifier" :icon="['fas', 'circle-info']" />
+            </span> 
+            {{ data.metadata["rdfs:label"] }}
+        </p>
+
+    </div>
+    <div class="col-lg-8">
+        <FormSectionCardComp :data="data" :type="type"/>
+    </div>
 </div>
 </template>

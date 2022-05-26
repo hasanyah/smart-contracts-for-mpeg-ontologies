@@ -9,11 +9,10 @@ import "bootstrap"
 import "./style.css"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-// import Contract from "./components/ContractComp.vue"
-// import Party from "./components/PartyComp.vue"
+import PartyComp from "./components/PartyComp.vue"
+import WorkComp from "./components/WorkComp.vue"
 // import Deontic from "./components/DeonticComp.vue"
 // import Action from "./components/ActionComp.vue"
-// import ObjectComp from "./components/ObjectComp.vue"
 
 // import Provide from "./components/ActionCompProvide.vue"
 // import Play from "./components/ActionCompPlay.vue"
@@ -32,11 +31,10 @@ app.use(createPinia())
 app.use(router)
 app.component("font-awesome-icon", FontAwesomeIcon);
 
-// app.component('Contract', Contract)
-// app.component('Party', Party)
+app.component('PartyComp', PartyComp)
+app.component('WorkComp', WorkComp)
 // app.component('Deontic', Deontic)
 // app.component('Action', Action)
-// app.component('ObjectComp', ObjectComp)
 // app.component('Provide', Provide)
 // app.component('Play', Play)
 // app.component('Payment', Payment)
