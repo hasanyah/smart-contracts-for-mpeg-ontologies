@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
         data: Object
     })
@@ -6,5 +6,4 @@ const props = defineProps({
 
 <template>
 
-</div>
 </template>
