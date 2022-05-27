@@ -4,9 +4,10 @@ import { useContractStore } from "../stores/contract";
 import { Contract, Version, VersionSummary } from "../types/ContractTypes.interface";
 import { storeToRefs } from "pinia";
 import ModalContractVersionComparator from "../components/ModalContractVersionComparator.vue"
+import ContractComp from "../components/ContractComp.vue"
 
 const contractStore = useContractStore();
-const { selectedContract, comparedVersion } = storeToRefs(useContractStore());
+const { selectedContract, comparedVersionNumber } = storeToRefs(useContractStore());
 const contractToView = ref<Contract>();
 const getContractByName = contractStore.getContractByName;
 contractToView.value = getContractByName(selectedContract.value);
@@ -16,13 +17,15 @@ const getVersionHistory = contractStore.getVersionListByContractName;
 versions.value = getVersionHistory;
 const lastVersionToView = ref<Version>()
 const versionNumberToCompare = ref<string>("")
+const comparedVersion = ref<Version>()
 
 function setSelectedVersion(num: number) {
     contractStore.setSelectedVersion(num)
 }
 
 function setComparedVersion(num: number) {
-    contractStore.setComparedVersion(num)
+    contractStore.setComparedVersionNumber(num)
+    comparedVersion.value = contractStore.getComparedVersion
 }
 
 setSelectedVersion(-1)
@@ -35,12 +38,8 @@ library.add(faCirclePlus)
 </script>
 
 <template>
-    <h1 class="text-center">Contract: {{ contractToView.name }}</h1>
     <div class="row">
-        <div class="col-lg-9">
-            <FormSectionComp title="Parties" objtype='Party' :data="contractToView.versions.at(-1).parties"/>
-            <FormSectionComp title="Intellectual Property" objtype='Work' :data="contractToView.versions.at(-1).ipObjects"/>
-        </div>
+        <ContractComp :data="contractToView.versions.at(-1)"/>
         <div class="col-lg-3">
             <div>
                 <h3>Royalties Distribution</h3>
@@ -65,5 +64,5 @@ library.add(faCirclePlus)
             </div>
         </div>
     </div>
-    <ModalContractVersionComparator id="VersionComparatorModal" :versionNumber="comparedVersion"/>
+    <ModalContractVersionComparator id="VersionComparatorModal" :versionNumber="comparedVersionNumber" :data="comparedVersion"/>
 </template>
