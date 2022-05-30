@@ -63,6 +63,31 @@ export const useContractStore = defineStore({
                 return deonticName;
                                 
             }
+        },
+        isPartyNewOrModified: (state) => {
+            return (
+                    contractName: string, 
+                    newVersionName: string, 
+                    oldVersionName: string,
+                    partyName: string
+                ): string => {
+                let contract = state.localContracts.find((contract) => contract.name === contractName);
+                let newVersion = contract.versions.find((version) => version.versionNumber === newVersionName);
+                let oldVersion = contract.versions.find((version) => version.versionNumber === oldVersionName);
+                let partyInNewVersion = newVersion.parties.filter((party) => { return party.identifier == partyName });
+                let partyInOldVersion = oldVersion.parties.filter((party) => { return party.identifier == partyName });
+                
+                if (partyInNewVersion === partyInOldVersion)
+                    return "unchanged"
+                
+                if (partyInNewVersion)
+                    return "added"
+
+                if (partyInNewVersion)
+                    return "removed"
+                
+                return "modified"
+            }
         }
     },
     actions: {

@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import FormSectionCardComp from "../components/FormSectionCardComp.vue"
 const props = defineProps({
-        data: Object,
-        objtype: String
-    })
+    data: Object,
+    objtype: String,
+    contractName: String,
+    versionNumber: Number,
+    mainVersionNumber: Number
+})
 </script>
 
 <script lang="ts">
@@ -22,7 +26,7 @@ library.add(faCircleInfo)
 
     </div>
     <div class="col-lg-8">
-        <FormSectionCardComp :data="data" :objtype="objtype"/>
+        <FormSectionCardComp :contractName="contractName" :versionNumber="versionNumber" :mainVersionNumber="mainVersionNumber" :data="data" :objtype="objtype"/>
     </div>
 </div>
 </template>

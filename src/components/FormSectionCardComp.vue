@@ -1,8 +1,26 @@
 <script setup lang="ts">
+import { useContractStore } from '../stores/contract';
+
 const props = defineProps({
-        data: Object,
-        objtype: String
-    })
+    data: Object,
+    objtype: String,
+    compared: Boolean,
+    partyModificationStatus: String,
+    contractName: String,
+    versionNumber: Number,
+    mainVersionNumber: Number
+})
+
+const contractStore = useContractStore();
+const isPartyNewOrModified = contractStore.isPartyNewOrModified;
+const matcher = {
+    "unchanged" : "",
+    "added"     : "bg-success",
+    "removed"   : "bg-danger",
+    "modified"  : "bg-warning"
+}
+
+
 </script>
 
 <script lang="ts">
@@ -24,6 +42,6 @@ library.add(faXmark)
         </button>
     </div>
     <div></div>
-    <component :is="objtype+'Comp'" :data="data"/>
+    <component :is="objtype+'Comp'" :data="data" :contractName="contractName" :versionNumber="versionNumber" :mainVersionNumber="mainVersionNumber" />
 </div>
 </template>

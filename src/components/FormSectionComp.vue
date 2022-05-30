@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import FormSectionRowComp from "../components/FormSectionRowComp.vue"
 import ModalAddParty from "./ModalAddParty.vue"
 import ModalAddIPO from "./ModalAddIPO.vue"
 const props = defineProps({
-        title: String,
-        objtype: String,
-        data: Object
-    })
+    title: String,
+    objtype: String,
+    data: Object,
+    contractName: String,
+    versionNumber: Number,
+    mainVersionNumber: Number
+})
 </script>
 
 <script lang="ts">
@@ -24,7 +28,7 @@ library.add(faCirclePlus)
 </h2>
 
 <div>
-    <FormSectionRowComp v-for="item in data" :key="item" :data="item" :objtype="objtype"/>
+    <FormSectionRowComp :contractName="contractName" :versionNumber="versionNumber" :mainVersionNumber="mainVersionNumber" v-for="item in data" :key="item" :data="item" :objtype="objtype"/>
 </div>
 
 <ModalAddParty id="PartyStaticBackdropModal"/>

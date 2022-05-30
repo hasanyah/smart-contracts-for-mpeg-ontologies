@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const props = defineProps({
-        data: Object
-    })
+    data: Object,
+    contractName: String,
+    versionNumber: Number,
+    mainVersionNumber: Number
+})
 </script>
 
 <template>

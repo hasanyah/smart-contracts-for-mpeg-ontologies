@@ -3,8 +3,11 @@ import { storeToRefs } from 'pinia'
 import { useContractStore } from '../stores/contract'
 
 const props = defineProps({
-    data: Object
-    })
+    data: Object,
+    contractName: String,
+    versionNumber: Number,
+    mainVersionNumber: Number
+})
 
 const contractStore = useContractStore();
 const getDeonticByName = contractStore.getDeonticByName;
