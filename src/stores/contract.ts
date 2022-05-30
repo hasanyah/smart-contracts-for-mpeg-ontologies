@@ -4,6 +4,18 @@ import { Contract, Version, VersionSummary, Party, IPObject } from '../types/Con
 import { versions } from 'process'
 import { faDownLeftAndUpRightToCenter } from '@fortawesome/free-solid-svg-icons'
 
+function isPartyEqual(pLeft: Party, pRight: Party): Boolean {
+    return (
+        pLeft.class === pRight.class &&
+        pLeft.role === pRight.role &&
+        pLeft.identifier === pRight.identifier &&
+        pLeft.metadata["rdfs:label"] === pRight.metadata["rdfs:label"] &&
+        pLeft.deonticsIssued.every(d => pRight.deonticsIssued.includes(d)) &&
+        pRight.deonticsIssued.every(d => pLeft.deonticsIssued.includes(d)) &&
+        pLeft.actionsIsSubject === pRight.actionsIsSubject
+    )
+}
+
 export const useContractStore = defineStore({
     id: 'contract',
     state: () => ({
@@ -47,10 +59,12 @@ export const useContractStore = defineStore({
 
             return versions;
         },
-        getComparedVersion(): Version {
-            let version = this.localContracts.find((contract) => contract.name === this.selectedContract)
-                           .versions.find((version) => version.versionNumber === this.comparedVersionNumber);
-            return version;
+        getComparedVersion: (state) => {
+            return (versionNumber: number): Version => {
+                let version = state.localContracts.find((contract) => contract.name === state.selectedContract)
+                               .versions.find((version) => version.versionNumber === versionNumber);
+                return version;
+            }
         },
         getDeonticByName: (state) => {
             return (deonticName: string): string => {
@@ -64,29 +78,52 @@ export const useContractStore = defineStore({
                                 
             }
         },
-        isPartyNewOrModified: (state) => {
+        getComparableMergedData: (state) => {
             return (
                     contractName: string, 
-                    newVersionName: string, 
-                    oldVersionName: string,
-                    partyName: string
-                ): string => {
+                    newVersionName: number, 
+                    oldVersionName: number
+                ): Object => {
+                let mergedComparableVersion = {}
                 let contract = state.localContracts.find((contract) => contract.name === contractName);
                 let newVersion = contract.versions.find((version) => version.versionNumber === newVersionName);
                 let oldVersion = contract.versions.find((version) => version.versionNumber === oldVersionName);
-                let partyInNewVersion = newVersion.parties.filter((party) => { return party.identifier == partyName });
-                let partyInOldVersion = oldVersion.parties.filter((party) => { return party.identifier == partyName });
-                
-                if (partyInNewVersion === partyInOldVersion)
-                    return "unchanged"
-                
-                if (partyInNewVersion)
-                    return "added"
 
-                if (partyInNewVersion)
-                    return "removed"
-                
-                return "modified"
+                mergedComparableVersion["parties"] = []
+                newVersion.parties.forEach((party) => {
+                    let partyInNewVersion = newVersion.parties.find((p) => { return p.identifier == party.identifier });
+                    let partyInOldVersion = oldVersion.parties.find((p) => { return p.identifier == party.identifier });
+
+                    let modifiedState = ""
+                    if (!partyInOldVersion)
+                        modifiedState = "added"
+                    else if (isPartyEqual(partyInNewVersion, partyInOldVersion))
+                        modifiedState = "unchanged"
+                    else
+                        modifiedState = "modified"
+
+                    party["modifiedState"] = modifiedState
+                    mergedComparableVersion["parties"].push(party)
+                });
+
+                oldVersion.parties.forEach((party) => {
+                    let partyInNewVersion = newVersion.parties.find((p) => { return p.identifier == party.identifier });
+                    let partyInOldVersion = oldVersion.parties.find((p) => { return p.identifier == party.identifier });
+                    let modifiedState = ""
+                    if (!partyInNewVersion) {
+                        modifiedState = "removed"
+                        party["modifiedState"] = modifiedState
+                        mergedComparableVersion["parties"].push(party)
+                    }
+                });
+
+                mergedComparableVersion["ipObjects"] = []
+                newVersion.ipObjects.forEach((ipObject) => {
+                    mergedComparableVersion["ipObjects"].push(ipObject)
+                });
+
+
+                return mergedComparableVersion;
             }
         }
     },
@@ -127,11 +164,21 @@ export const useContractStore = defineStore({
                         versionNumber : 0,
                         parties: [
                             {
+                                class: 'OldCreator',
+                                role: 'OldCreator',
+                                identifier: 'oldCreatorId',
+                                metadata: {
+                                    "rdfs:label": 'Creator v1'
+                                },
+                                deonticsIssued: ['p4'],
+                                actionsIsSubject: [],
+                            },
+                            {
                                 class: 'Creator',
                                 role: 'Creator',
                                 identifier: 'creatorId',
                                 metadata: {
-                                    "rdfs:label": 'Name Surname'
+                                    "rdfs:label": 'Creator v2'
                                 },
                                 deonticsIssued: ['p4'],
                                 actionsIsSubject: [],
@@ -141,7 +188,7 @@ export const useContractStore = defineStore({
                                 role: 'Distributor',
                                 identifier: 'distributorId',
                                 metadata: {
-                                    "rdfs:label": 'Name Surname (Dist)'
+                                    "rdfs:label": 'Dist v1'
                                 },
                                 deonticsIssued: ['p4', 'o1'],
                                 actionsIsSubject: ['a5'],

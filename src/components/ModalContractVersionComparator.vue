@@ -2,7 +2,8 @@
 import ContractComp from './ContractComp.vue';
 const props = defineProps({
     data: Object,
-    name: String
+    contractName: String,
+    mainVersionNumber: Number,
 })
 </script>
 
@@ -16,7 +17,7 @@ const props = defineProps({
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <ContractComp v-if="data" :data="data" :contractName="name" :compared="true"/>
+                    <ContractComp v-if="data" :data="data" :contractName="contractName" :mainVersionNumber="mainVersionNumber"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

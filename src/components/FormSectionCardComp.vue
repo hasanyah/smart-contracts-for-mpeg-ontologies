@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import { useContractStore } from '../stores/contract';
-
 const props = defineProps({
     data: Object,
     objtype: String,
-    compared: Boolean,
-    partyModificationStatus: String,
     contractName: String,
     versionNumber: Number,
     mainVersionNumber: Number
 })
 
-const contractStore = useContractStore();
-const isPartyNewOrModified = contractStore.isPartyNewOrModified;
 const matcher = {
     "unchanged" : "",
     "added"     : "bg-success",
     "removed"   : "bg-danger",
     "modified"  : "bg-warning"
+}
+
+function appendClass() {
+    if (props.mainVersionNumber === props.versionNumber)
+        return ""
+    else
+        return matcher[props.data.modifiedState];
 }
 
 
@@ -32,7 +33,7 @@ library.add(faXmark)
 </script>
 
 <template>
-<div class="container-fluid mb-4 justify-content-md-center border border-secondary rounded">
+<div class="container-fluid mb-4 justify-content-md-center border border-secondary rounded" :class="appendClass()">
     <div class="d-flex justify-content-end">
         <button type="button" class="btn">
             <span class="btn-label"><font-awesome-icon :icon="['fas', 'pen']" /></span>

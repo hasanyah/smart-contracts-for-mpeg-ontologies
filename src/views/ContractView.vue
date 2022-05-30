@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useContractStore } from "../stores/contract";
 import { Contract, Version, VersionSummary } from "../types/ContractTypes.interface";
 import { storeToRefs } from "pinia";
@@ -7,7 +7,7 @@ import ModalContractVersionComparator from "../components/ModalContractVersionCo
 import ContractComp from "../components/ContractComp.vue"
 
 const contractStore = useContractStore();
-const { selectedContract, comparedVersionNumber } = storeToRefs(useContractStore());
+const { selectedContract } = storeToRefs(useContractStore());
 const contractToView = ref<Contract>();
 const getContractByName = contractStore.getContractByName;
 contractToView.value = getContractByName(selectedContract.value);
@@ -15,9 +15,8 @@ contractToView.value = getContractByName(selectedContract.value);
 const versions = ref<VersionSummary[]>()
 const getVersionHistory = contractStore.getVersionListByContractName;
 versions.value = getVersionHistory;
-const lastVersionToView = ref<Version>()
-const versionNumberToCompare = ref<string>("")
-const comparedVersion = ref<Version>()
+const comparedVersionNumber = ref()
+const comparedVersion = computed(()=>contractStore.getComparedVersion(comparedVersionNumber.value));
 
 function setSelectedVersion(num: number) {
     contractStore.setSelectedVersion(num)
@@ -25,7 +24,7 @@ function setSelectedVersion(num: number) {
 
 function setComparedVersion(num: number) {
     contractStore.setComparedVersionNumber(num)
-    comparedVersion.value = contractStore.getComparedVersion
+    comparedVersionNumber.value = num 
 }
 
 setSelectedVersion(-1)
@@ -64,5 +63,5 @@ library.add(faCirclePlus)
             </div>
         </div>
     </div>
-    <ModalContractVersionComparator id="VersionComparatorModal" :data="comparedVersion" :name="contractToView.name"  :mainVersionNumber="contractToView.versions.at(-1).versionNumber"/>
+    <ModalContractVersionComparator id="VersionComparatorModal" :data="comparedVersion" :contractName="contractToView.name" :mainVersionNumber="contractToView.versions.at(-1).versionNumber"/>
 </template>
