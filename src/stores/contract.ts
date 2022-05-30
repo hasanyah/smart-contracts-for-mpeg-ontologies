@@ -385,6 +385,7 @@ export const useContractStore = defineStore({
                 ]
             };
             this.localContracts.push(newContract);
+            this.versionCount++;
         },
     }
 })
