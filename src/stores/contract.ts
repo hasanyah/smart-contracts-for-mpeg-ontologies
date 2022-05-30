@@ -83,13 +83,13 @@ export const useContractStore = defineStore({
                     contractName: string, 
                     newVersionName: number, 
                     oldVersionName: number
-                ): Object => {
-                let mergedComparableVersion = {}
+                ): Version => {
+                let mergedComparableVersion: Version = {}
+                mergedComparableVersion.parties = []
                 let contract = state.localContracts.find((contract) => contract.name === contractName);
                 let newVersion = contract.versions.find((version) => version.versionNumber === newVersionName);
                 let oldVersion = contract.versions.find((version) => version.versionNumber === oldVersionName);
 
-                mergedComparableVersion["parties"] = []
                 newVersion.parties.forEach((party) => {
                     let partyInNewVersion = newVersion.parties.find((p) => { return p.identifier == party.identifier });
                     let partyInOldVersion = oldVersion.parties.find((p) => { return p.identifier == party.identifier });
@@ -102,8 +102,8 @@ export const useContractStore = defineStore({
                     else
                         modifiedState = "modified"
 
-                    party["modifiedState"] = modifiedState
-                    mergedComparableVersion["parties"].push(party)
+                    party.modifiedState = modifiedState
+                    mergedComparableVersion.parties.push(party)
                 });
 
                 oldVersion.parties.forEach((party) => {
@@ -112,14 +112,13 @@ export const useContractStore = defineStore({
                     let modifiedState = ""
                     if (!partyInNewVersion) {
                         modifiedState = "removed"
-                        party["modifiedState"] = modifiedState
-                        mergedComparableVersion["parties"].push(party)
+                        party.modifiedState = modifiedState
+                        mergedComparableVersion.parties.push(party)
                     }
                 });
-
-                mergedComparableVersion["ipObjects"] = []
+                mergedComparableVersion.ipObjects = []
                 newVersion.ipObjects.forEach((ipObject) => {
-                    mergedComparableVersion["ipObjects"].push(ipObject)
+                    mergedComparableVersion.ipObjects.push(ipObject)
                 });
 
 

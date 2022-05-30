@@ -5,15 +5,15 @@ export interface Contract {
 }
 
 export interface Version {
-    versionNumber: number;
-    parties: Party[];
-    deontics: Deontic[];
-    actions: Action[];
-    ipObjects: IPObject[];
-    signedBy: string[];
-    requiredSignatures: string[];
-    status: string;
-    created: Date;
+    versionNumber?: number;
+    parties?: Party[];
+    deontics?: Deontic[];
+    actions?: Action[];
+    ipObjects?: IPObject[];
+    signedBy?: string[];
+    requiredSignatures?: string[];
+    status?: string;
+    created?: Date;
 }
 
 export interface Party {
@@ -23,6 +23,7 @@ export interface Party {
     metadata: Metadata;
     deonticsIssued: string[];
     actionsIsSubject: string[];
+    modifiedState?: string;
 }
 
 export interface Deontic {
