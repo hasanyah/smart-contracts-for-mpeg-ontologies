@@ -27,14 +27,13 @@ export interface Party {
 
 export interface Deontic {
     class: string;
-    role: string;
     identifier: string;
     metadata: Metadata;
-    issuedIn: string;
-    issuer: number;
-    act: number;
-    actedBySubject: number;
-    actObjects: IPObject[];
+    issuedIn?: string;
+    issuer?: string;
+    act?: string;
+    actedBySubject?: string;
+    actObjects?: string[];
 }
 
 export interface Action {

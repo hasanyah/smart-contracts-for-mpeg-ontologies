@@ -1,10 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useContractStore } from '../stores/contract'
+
 const props = defineProps({
-        data: Object
+    data: Object
     })
-const { parties } = storeToRefs(useContractStore())
+
+const contractStore = useContractStore();
+const getDeonticByName = contractStore.getDeonticByName;
+
+
 </script>
 
 <template>
@@ -23,7 +28,7 @@ const { parties } = storeToRefs(useContractStore())
         <p><strong>Deontics Issued: </strong></p>
         <ul>
             <li v-for="item in data.deonticsIssued" :key="item">
-                {{item}}
+                {{getDeonticByName(item)}}
             </li>
         </ul>
     </span>

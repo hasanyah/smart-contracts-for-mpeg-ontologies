@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { Contract, Version, VersionSummary, Party, IPObject } from '../types/ContractTypes.interface'
+import { versions } from 'process'
+import { faDownLeftAndUpRightToCenter } from '@fortawesome/free-solid-svg-icons'
 
 export const useContractStore = defineStore({
     id: 'contract',
@@ -8,19 +10,20 @@ export const useContractStore = defineStore({
         localContracts: [],
         selectedContract: '',
         selectedVersion: -1,
-        comparedVersionNumber: 0
+        comparedVersionNumber: 0,
+        versionCount: 0
     }),
     getters: {
         getCreatedDate: (state) => {
             return (contractName: string): string => {
                 let contract = state.localContracts.find((contract) => contract.name === contractName);
-                return contract.versions.at(0).created.toLocaleDateString("es-ES"); 
+                return new Date(contract.versions.at(0).created).toLocaleDateString("es-ES"); 
             }
         },
         getLastModifiedDate: (state) => {
             return (contractName: string): string => {
                 let contract = state.localContracts.find((contract) => contract.name === contractName);
-                return contract.versions.at(-1).created.toLocaleDateString("es-ES");
+                return new Date(contract.versions.at(-1).created).toLocaleDateString("es-ES");
             }
         },
         getContractsBelongingToTheUser(): Contract[] {
@@ -48,6 +51,18 @@ export const useContractStore = defineStore({
             let version = this.localContracts.find((contract) => contract.name === this.selectedContract)
                            .versions.find((version) => version.versionNumber === this.comparedVersionNumber);
             return version;
+        },
+        getDeonticByName: (state) => {
+            return (deonticName: string): string => {
+                let contract = state.localContracts.find((contract) => contract.name === state.selectedContract);
+                let version = state.selectedVersion === -1 ? contract.versions.at(-1) : contract.versions.find((version) => version.versionNumber === state.selectedVersion);
+                let deontic = version.deontics.find((deontic) => deontic.identifier === deonticName);
+                if (deontic)
+                    return deontic.metadata["rdfs:label"];
+                else
+                return deonticName;
+                                
+            }
         }
     },
     actions: {
@@ -59,9 +74,6 @@ export const useContractStore = defineStore({
         },
         setComparedVersionNumber(num: number) {
             this.comparedVersionNumber = num;
-        },
-        createNewContract(newContract: Contract) {
-            this.localContracts.push(newContract);
         },
         deleteContract(name: string) {
             this.localContracts = this.localContracts.filter((contract) => {
@@ -75,6 +87,233 @@ export const useContractStore = defineStore({
         addIPObject(ipObject: IPObject) {
             let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
             contract.versions.at(-1).ipObjects.push(ipObject)
-        }
+        },
+        createNewContract() {
+            let currentDate = new Date;
+            let oldDate = new Date;
+            oldDate.setDate(currentDate.getDate()-10);
+
+            let loggedInUser = useUserStore().loggedInUser
+            let newContract = {
+                name: 'mContract'+this.versionCount,
+                creator: loggedInUser,
+                versions : [
+                    {
+                        versionNumber : 0,
+                        parties: [
+                            {
+                                class: 'Creator',
+                                role: 'Creator',
+                                identifier: 'creatorId',
+                                metadata: {
+                                    "rdfs:label": 'Name Surname'
+                                },
+                                deonticsIssued: ['p4'],
+                                actionsIsSubject: [],
+                            },
+                            {
+                                class: 'Distributor',
+                                role: 'Distributor',
+                                identifier: 'distributorId',
+                                metadata: {
+                                    "rdfs:label": 'Name Surname (Dist)'
+                                },
+                                deonticsIssued: ['p4', 'o1'],
+                                actionsIsSubject: ['a5'],
+                            },
+                            {
+                                class: 'Distributor',
+                                role: 'Distributor',
+                                identifier: 'streamingServiceId',
+                                metadata: {
+                                    "rdfs:label": 'Streaming Service'
+                                },
+                                deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'o9', 'p1'],
+                                actionsIsSubject: ['a2', 'p2', 'p3', 'p4'],
+                            }
+                        ],
+                        deontics: [
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o4",
+                                metadata: {
+                                "rdfs:label": "Streaming service pays 10% to publisher"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay2",
+                                actedBySubject: "http://mpeg.org/StreamingService"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o5",
+                                metadata: {
+                                "rdfs:label": "Streaming service pays 1% to PRO"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay3",
+                                actedBySubject: "http://mpeg.org/StreamingService"
+                            },
+                            {
+                                class: "MCOPermission",
+                                type: "MCOPermission",
+                                identifier: "p4",
+                                metadata: {
+                                "rdfs:label": "Author authorises indie label to distribute"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/Author",
+                                act: "http://mpeg.org/action4",
+                                actedBySubject: "http://mpeg.org/RecordLabel",
+                                actObjects: [
+                                "http://mpeg.org/Song"
+                                ]
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o1",
+                                metadata: {
+                                "rdfs:label": "Publisher provide a song to streaming"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/Publisher",
+                                act: "http://mpeg.org/action5",
+                                actedBySubject: "http://mpeg.org/Publisher",
+                                actObjects: [
+                                "http://mpeg.org/Song"
+                                ]
+                            }
+                        ],
+                        actions: [],
+                        ipObjects: [],
+                        signedBy: ['Creator'],
+                        requiredSignatures: ['Creator', 'Streaming Service'],
+                        status: 'Pending',
+                        created: oldDate
+                    },
+                    {
+                        versionNumber : 1,
+                        parties: [
+                            {
+                                class: 'Creator',
+                                role: 'Creator',
+                                identifier: 'creatorId',
+                                metadata: {
+                                    "rdfs:label": 'Name Surname'
+                                },
+                                deonticsIssued: ['p4'],
+                                actionsIsSubject: [],
+                            },
+                            {
+                                class: 'Distributor',
+                                role: 'Distributor',
+                                identifier: 'distributorId',
+                                metadata: {
+                                    "rdfs:label": 'Name Surname (Dist)'
+                                },
+                                deonticsIssued: ['p4', 'o1'],
+                                actionsIsSubject: ['a5'],
+                            },
+                            {
+                                class: 'Distributor',
+                                role: 'Distributor',
+                                identifier: 'streamingServiceId',
+                                metadata: {
+                                    "rdfs:label": 'Streaming Service'
+                                },
+                                deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'o9', 'p1'],
+                                actionsIsSubject: ['a2', 'p2', 'p3', 'p4'],
+                            },
+                            {
+                                class: 'EndUser',
+                                role: 'EndUser',
+                                identifier: 'endUserId',
+                                metadata: {
+                                    "rdfs:label": 'Consumer'
+                                },
+                                deonticsIssued: ['o3'],
+                                actionsIsSubject: ['a1', 'p1'],
+                            }
+                        ],
+                        deontics: [
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o4",
+                                metadata: {
+                                "rdfs:label": "Streaming service pays 10% to publisher"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay2",
+                                actedBySubject: "http://mpeg.org/StreamingService"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o5",
+                                metadata: {
+                                "rdfs:label": "Streaming service pays 1% to PRO"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay3",
+                                actedBySubject: "http://mpeg.org/StreamingService"
+                            },
+                            {
+                                class: "MCOPermission",
+                                type: "MCOPermission",
+                                identifier: "p4",
+                                metadata: {
+                                "rdfs:label": "Author authorises indie label to distribute"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/Author",
+                                act: "http://mpeg.org/action4",
+                                actedBySubject: "http://mpeg.org/RecordLabel",
+                                actObjects: [
+                                "http://mpeg.org/Song"
+                                ]
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o1",
+                                metadata: {
+                                "rdfs:label": "Publisher provide a song to streaming"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/Publisher",
+                                act: "http://mpeg.org/action5",
+                                actedBySubject: "http://mpeg.org/Publisher",
+                                actObjects: [
+                                "http://mpeg.org/Song"
+                                ]
+                            }
+                        ],
+                        actions: [],
+                        ipObjects: [
+                            {
+                                class: 'Work',
+                                type: 'Work',
+                                identifier: 'songId',
+                                metadata: {
+                                    "rdfs:label": 'Frantic by Metallica'
+                                },
+                            }
+                        ],
+                        signedBy: ['Creator'],
+                        requiredSignatures: ['Creator', 'Streaming Service'],
+                        status: 'Pending',
+                        created: currentDate
+                    }
+                ]
+            };
+            this.localContracts.push(newContract);
+        },
     }
 })

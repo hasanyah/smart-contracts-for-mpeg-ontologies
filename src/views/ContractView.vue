@@ -39,7 +39,7 @@ library.add(faCirclePlus)
 
 <template>
     <div class="row">
-        <ContractComp :data="contractToView.versions.at(-1)"/>
+        <ContractComp :data="contractToView.versions.at(-1)" :contractName="contractToView.name"/>
         <div class="col-lg-3">
             <div>
                 <h3>Royalties Distribution</h3>
@@ -64,5 +64,5 @@ library.add(faCirclePlus)
             </div>
         </div>
     </div>
-    <ModalContractVersionComparator id="VersionComparatorModal" :versionNumber="comparedVersionNumber" :data="comparedVersion"/>
+    <ModalContractVersionComparator id="VersionComparatorModal" :versionNumber="comparedVersionNumber" :data="comparedVersion" :name="contractToView.name"/>
 </template>
