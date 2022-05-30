@@ -10,7 +10,6 @@ const tableHeaders = ['Name', 'Status', 'Created', 'Last Edited', 'Creator']
 const { loggedInUser } = storeToRefs(useUserStore())
 const contractStore = useContractStore();    
 const { getContractsBelongingToTheUser, selectedContract } = storeToRefs(useContractStore());
-const count = ref<number>(0);
 
 const getCreatedDate = contractStore.getCreatedDate; 
 const getLastModifiedDate = contractStore.getLastModifiedDate; 
