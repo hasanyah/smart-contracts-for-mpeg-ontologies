@@ -16,7 +16,7 @@ const versions = ref<VersionSummary[]>()
 const getVersionHistory = contractStore.getVersionListByContractName;
 versions.value = getVersionHistory;
 const comparedVersionNumber = ref()
-const comparedVersion = computed(()=>contractStore.getComparedVersion(comparedVersionNumber.value));
+const comparedVersion = computed(()=>contractStore.getVersionByNumber(comparedVersionNumber.value));
 
 function setSelectedVersion(num: number) {
     contractStore.setSelectedVersion(num)

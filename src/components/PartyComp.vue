@@ -12,6 +12,9 @@ const props = defineProps({
 const contractStore = useContractStore();
 const getDeonticByName = contractStore.getDeonticByName;
 
+const thereIsDifference = props.versionNumber != props.mainVersionNumber;
+const localVersion = contractStore.getVersionByNumber(props.versionNumber);
+const mainVersion = contractStore.getVersionByNumber(props.mainVersionNumber);
 
 </script>
 

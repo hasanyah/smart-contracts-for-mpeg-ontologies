@@ -12,4 +12,5 @@ h2 {
 }
 
 .sidebar a:hover, 
+.sidebar a, 
 .sidebar a:visited { color:#ffffff !important; }

@@ -59,7 +59,7 @@ export const useContractStore = defineStore({
 
             return versions;
         },
-        getComparedVersion: (state) => {
+        getVersionByNumber: (state) => {
             return (versionNumber: number): Version => {
                 let version = state.localContracts.find((contract) => contract.name === state.selectedContract)
                                .versions.find((version) => version.versionNumber === versionNumber);

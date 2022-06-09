@@ -35,6 +35,7 @@ export interface Deontic {
     act?: string;
     actedBySubject?: string;
     actObjects?: string[];
+    modifiedState?: string;
 }
 
 export interface Action {
@@ -44,6 +45,7 @@ export interface Action {
     actedBy: number;
     actedOver: number[];
     beneficiaries: number[];
+    modifiedState?: string;
 }
 
 export interface IPObject {
@@ -51,6 +53,7 @@ export interface IPObject {
     type: string;
     identifier: string;
     metadata: Metadata;
+    modifiedState?: string;
 }
 
 export interface Metadata {
