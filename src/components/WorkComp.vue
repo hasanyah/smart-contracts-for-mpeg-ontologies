@@ -3,7 +3,8 @@ const props = defineProps({
     data: Object,
     contractName: String,
     versionNumber: Number,
-    mainVersionNumber: Number
+    mainVersionNumber: Number,
+    changesArePropagated: Boolean
 })
 </script>
 

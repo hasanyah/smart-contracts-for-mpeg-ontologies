@@ -20,6 +20,7 @@ export interface Party {
     class: string;
     role: string;
     identifier: string;
+    address?: string;
     metadata: Metadata;
     deonticsIssued: string[];
     actionsIsSubject: string[];

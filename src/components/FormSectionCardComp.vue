@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 const props = defineProps({
     data: Object,
     objtype: String,
@@ -9,16 +10,24 @@ const props = defineProps({
 
 const matcher = {
     "unchanged" : "",
-    "added"     : "bg-success",
-    "removed"   : "bg-danger",
-    "modified"  : "bg-warning"
+    "added"     : "border-success border-5",
+    "removed"   : "border-danger border-5",
+    "modified"  : "border-warning  border-5"
 }
 
+const propagateFurtherChanges = ref<Boolean>();
+propagateFurtherChanges.value = false;
+
 function appendClass() {
-    if (props.mainVersionNumber === props.versionNumber)
+    if (props.mainVersionNumber === props.versionNumber) {
+        propagateFurtherChanges.value = false
         return ""
-    else
+    } else {
+        if (props.data.modifiedState === "modified")
+            propagateFurtherChanges.value = true
+
         return matcher[props.data.modifiedState];
+    }
 }
 
 
@@ -43,6 +52,6 @@ library.add(faXmark)
         </button>
     </div>
     <div></div>
-    <component :is="objtype+'Comp'" :data="data" :contractName="contractName" :versionNumber="versionNumber" :mainVersionNumber="mainVersionNumber" />
+    <component :is="objtype+'Comp'" :data="data" :changesArePropagated="propagateFurtherChanges" :contractName="contractName" :versionNumber="versionNumber" :mainVersionNumber="mainVersionNumber" />
 </div>
 </template>

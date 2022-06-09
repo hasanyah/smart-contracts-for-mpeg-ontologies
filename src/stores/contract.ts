@@ -74,8 +74,16 @@ export const useContractStore = defineStore({
                 if (deontic)
                     return deontic.metadata["rdfs:label"];
                 else
-                return deonticName;
+                    return deonticName;
                                 
+            }
+        },
+        getPartyFromVersion: (state) => {
+            return (contractID: string, versionId: number, partyId: string, ): Party => {
+                let contract = state.localContracts.find((contract) => contract.name === contractID);
+                let version = contract.versions.find((version) => version.versionNumber === versionId);
+                let party = version.parties.find((party) => party.identifier === partyId);
+                return party;                
             }
         },
         getComparableMergedData: (state) => {

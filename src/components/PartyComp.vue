@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
+import { ref } from 'vue';
 import { useContractStore } from '../stores/contract'
+import { Party } from '../types/ContractTypes.interface';
+import Field from './FomSectionCardFieldComp.vue'
 
 const props = defineProps({
     data: Object,
     contractName: String,
     versionNumber: Number,
-    mainVersionNumber: Number
+    mainVersionNumber: Number,
+    changesArePropagated: Boolean
 })
 
 const contractStore = useContractStore();
 const getDeonticByName = contractStore.getDeonticByName;
+const newParty = ref<Party>();
 
-const thereIsDifference = props.versionNumber != props.mainVersionNumber;
-const localVersion = contractStore.getVersionByNumber(props.versionNumber);
-const mainVersion = contractStore.getVersionByNumber(props.mainVersionNumber);
+if (props.changesArePropagated)
+    newParty.value = contractStore.getPartyFromVersion(props.contractName, props.mainVersionNumber, props.data.identifier);
 
 </script>
 
@@ -22,12 +25,10 @@ const mainVersion = contractStore.getVersionByNumber(props.mainVersionNumber);
 <div>
     <div class="row">
         <div class="col">
-            Role: {{ data.class }}
+            <Field :newText="changesArePropagated && newParty ? newParty.class : data.class" :oldText="data.class" title="Role"/>
         </div>
         <div class="col">
-            Address: 
-            <span v-if="data.address">{{ data.address }}</span>
-            <span v-else><em>N/A</em></span>
+            <Field :newText="changesArePropagated && newParty? newParty.address : data.address" :oldText="data.address" title="Address"/>
         </div>
     </div>
     <span v-if="data.deonticsIssued && data.deonticsIssued.length > 0">
