@@ -6,9 +6,7 @@ const props = defineProps({
     title: String,
     objtype: String,
     data: Object,
-    contractName: String,
-    versionNumber: Number,
-    mainVersionNumber: Number
+    comparedData: Object
 })
 </script>
 
@@ -28,7 +26,8 @@ library.add(faCirclePlus)
 </h2>
 
 <div>
-    <FormSectionRowComp :contractName="contractName" :versionNumber="versionNumber" :mainVersionNumber="mainVersionNumber" v-for="item in data" :key="item" :data="item" :objtype="objtype"/>
+    <FormSectionRowComp v-for="item in data" :key="item" :data="item" :objtype="objtype"/>
+    <div v-if="comparedData">COMPARABLE</div>
 </div>
 
 <ModalAddParty id="PartyStaticBackdropModal"/>

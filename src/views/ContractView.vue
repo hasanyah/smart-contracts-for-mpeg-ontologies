@@ -5,29 +5,24 @@ import { Contract, Version, VersionSummary } from "../types/ContractTypes.interf
 import { storeToRefs } from "pinia";
 import ModalContractVersionComparator from "../components/ModalContractVersionComparator.vue"
 import ContractComp from "../components/ContractComp.vue"
+import {useRoute} from 'vue-router'
 
+const route = useRoute();
+const viewedContractId = route.params.contractid as string
 const contractStore = useContractStore();
-const { selectedContract } = storeToRefs(useContractStore());
 const contractToView = ref<Contract>();
-const getContractByName = contractStore.getContractByName;
-contractToView.value = getContractByName(selectedContract.value);
+contractToView.value = contractStore.getContractByName(viewedContractId);
 
 const versions = ref<VersionSummary[]>()
-const getVersionHistory = contractStore.getVersionListByContractName;
-versions.value = getVersionHistory;
-const comparedVersionNumber = ref()
-const comparedVersion = computed(()=>contractStore.getVersionByNumber(comparedVersionNumber.value));
+versions.value = contractStore.getVersionListByContractName(viewedContractId);
 
-function setSelectedVersion(num: number) {
-    contractStore.setSelectedVersion(num)
-}
+const comparedVersionNumber = ref<number>(0)
+const comparedVersion = computed(()=>contractStore.getVersionByNumber(viewedContractId, comparedVersionNumber.value));
 
 function setComparedVersion(num: number) {
-    contractStore.setComparedVersionNumber(num)
     comparedVersionNumber.value = num 
 }
 
-setSelectedVersion(-1)
 </script>
 
 <script lang="ts">
@@ -38,7 +33,7 @@ library.add(faCirclePlus)
 
 <template>
     <div class="row">
-        <ContractComp :data="contractToView.versions.at(-1)" :contractName="contractToView.name" :mainVersionNumber="contractToView.versions.at(-1).versionNumber"/>
+        <ContractComp :data="contractToView.versions.at(-1)" :contractName="contractToView.name"/>
         <div class="col-lg-3">
             <div>
                 <h3>Royalties Distribution</h3>
@@ -63,5 +58,5 @@ library.add(faCirclePlus)
             </div>
         </div>
     </div>
-    <ModalContractVersionComparator id="VersionComparatorModal" :data="comparedVersion" :contractName="contractToView.name" :mainVersionNumber="contractToView.versions.at(-1).versionNumber"/>
+    <ModalContractVersionComparator id="VersionComparatorModal" :data="comparedVersion" :comparedData="contractToView.versions.at(-1)" :contractName="contractToView.name"/>
 </template>

@@ -58,7 +58,7 @@ export interface IPObject {
 }
 
 export interface Metadata {
-    "rdfs:label": String;
+    "rdfs:label": string;
 }
 
 export interface VersionSummary {

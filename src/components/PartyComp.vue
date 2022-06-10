@@ -6,9 +6,6 @@ import Field from './FomSectionCardFieldComp.vue'
 
 const props = defineProps({
     data: Object,
-    contractName: String,
-    versionNumber: Number,
-    mainVersionNumber: Number,
     changesArePropagated: Boolean
 })
 
@@ -16,8 +13,8 @@ const contractStore = useContractStore();
 const getDeonticByName = contractStore.getDeonticByName;
 const newParty = ref<Party>();
 
-if (props.changesArePropagated)
-    newParty.value = contractStore.getPartyFromVersion(props.contractName, props.mainVersionNumber, props.data.identifier);
+// if (props.changesArePropagated)
+//     newParty.value = contractStore.getPartyFromVersion(props.contractName, props.mainVersionNumber, props.data.identifier);
 
 </script>
 
@@ -35,7 +32,7 @@ if (props.changesArePropagated)
         <p><strong>Deontics Issued: </strong></p>
         <ul>
             <li v-for="item in data.deonticsIssued" :key="item">
-                {{getDeonticByName(item)}}
+                <!-- {{getDeonticByName(item)}} -->
             </li>
         </ul>
     </span>

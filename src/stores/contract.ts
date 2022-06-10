@@ -16,29 +16,41 @@ function isPartyEqual(pLeft: Party, pRight: Party): Boolean {
     )
 }
 
+function findContractByName(contractName: string, arrayOfContracts: Contract[]) {
+    console.log("Getting contract by name: " + contractName)
+    let contract = arrayOfContracts.find((contract) => contract.name === contractName);
+    return contract;
+}
+
+function findVersionByNumber(versionNumber: number, contract: Contract) {
+    console.log("Getting version by number: " + versionNumber)
+    let version = contract.versions.find((version) => version.versionNumber === versionNumber);
+    return version;
+}
+
 export const useContractStore = defineStore({
     id: 'contract',
     state: () => ({
         localContracts: [],
-        selectedContract: '',
-        selectedVersion: -1,
-        comparedVersionNumber: 0,
         versionCount: 0
     }),
     getters: {
         getCreatedDate: (state) => {
-            return (contractName: string): string => {
-                let contract = state.localContracts.find((contract) => contract.name === contractName);
+            return (contractID: string): string => {
+                console.log("Getting create date for contract: " + contractID)
+                let contract = findContractByName(contractID, state.localContracts);
                 return new Date(contract.versions.at(0).created).toLocaleDateString("es-ES"); 
             }
         },
         getLastModifiedDate: (state) => {
-            return (contractName: string): string => {
-                let contract = state.localContracts.find((contract) => contract.name === contractName);
+            return (contractID: string): string => {
+                console.log("Getting last modified date for contract: " + contractID)
+                let contract = findContractByName(contractID, state.localContracts);
                 return new Date(contract.versions.at(-1).created).toLocaleDateString("es-ES");
             }
         },
         getContractsBelongingToTheUser(): Contract[] {
+            console.log("Getting contracts belonging to the user")
             const userStore = useUserStore()
             let contracts = this.localContracts.filter((contract) => {
                 return contract.creator === userStore.loggedInUser;
@@ -46,40 +58,47 @@ export const useContractStore = defineStore({
             return contracts;
         },
         getContractByName: (state) => {
-            return (contractName: string): Contract => {
-                return state.localContracts.find((contract) => contract.name === contractName);
+            return (contractID: string): Contract => {
+                console.log("Getting contract by name: " + contractID)
+                return findContractByName(contractID, state.localContracts);
             }
         },
-        getVersionListByContractName(): VersionSummary[] {
-            let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
-            let versions = [];
-            contract.versions.forEach(element => {
-                versions.push({date: element.created, versionNumber: element.versionNumber});
-            });
-
-            return versions;
+        getVersionListByContractName: (state) => {
+            return (contractID: string): VersionSummary[] => {
+                console.log("Getting version list by contract name: " + contractID)
+                let contract = findContractByName(contractID, state.localContracts);
+                let versions = [];
+                contract.versions.forEach(element => {
+                    versions.push({date: element.created, versionNumber: element.versionNumber});
+                });
+    
+                return versions;
+            }
         },
         getVersionByNumber: (state) => {
-            return (versionNumber: number): Version => {
-                let version = state.localContracts.find((contract) => contract.name === state.selectedContract)
-                               .versions.find((version) => version.versionNumber === versionNumber);
+            return (contractID: string, versionId: number): Version => {
+                console.log("Getting version for contract: " + contractID + " and number: " + versionId)
+                let contract = findContractByName(contractID, state.localContracts);
+                let version = findVersionByNumber(versionId, contract);
                 return version;
             }
         },
         getDeonticByName: (state) => {
-            return (deonticName: string): string => {
-                let contract = state.localContracts.find((contract) => contract.name === state.selectedContract);
-                let version = state.selectedVersion === -1 ? contract.versions.at(-1) : contract.versions.find((version) => version.versionNumber === state.selectedVersion);
-                let deontic = version.deontics.find((deontic) => deontic.identifier === deonticName);
+            return (contractID: string, versionId: number, deonticId: string): string => {
+                console.log("Getting deontics for contract: " + contractID + " and number: " + versionId + " and deo:" + deonticId)
+                let contract = findContractByName(contractID, state.localContracts);
+                let version = findVersionByNumber(versionId, contract);
+                let deontic = version.deontics.find((deontic) => deontic.identifier === deonticId);
                 if (deontic)
                     return deontic.metadata["rdfs:label"];
                 else
-                    return deonticName;
+                    return deonticId;
                                 
             }
         },
         getPartyFromVersion: (state) => {
             return (contractID: string, versionId: number, partyId: string, ): Party => {
+                console.log("Getting party for contract: " + contractID + " and number: " + versionId + " and deo:" + partyId)
                 let contract = state.localContracts.find((contract) => contract.name === contractID);
                 let version = contract.versions.find((version) => version.versionNumber === versionId);
                 let party = version.parties.find((party) => party.identifier === partyId);
@@ -135,28 +154,19 @@ export const useContractStore = defineStore({
         }
     },
     actions: {
-        setSelectedContract(name: string) {
-            this.selectedContract = name;
-        },
-        setSelectedVersion(num: number) {
-            this.selectedVersion = num;
-        },
-        setComparedVersionNumber(num: number) {
-            this.comparedVersionNumber = num;
-        },
         deleteContract(name: string) {
             this.localContracts = this.localContracts.filter((contract) => {
                 return contract.name !== name;
             });
         },
-        addParty(party: Party) {
-            let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
-            contract.versions.at(-1).parties.push(party)
-        },
-        addIPObject(ipObject: IPObject) {
-            let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
-            contract.versions.at(-1).ipObjects.push(ipObject)
-        },
+        // addParty(party: Party) {
+        //     let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
+        //     contract.versions.at(-1).parties.push(party)
+        // },
+        // addIPObject(ipObject: IPObject) {
+        //     let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
+        //     contract.versions.at(-1).ipObjects.push(ipObject)
+        // },
         createNewContract() {
             let currentDate = new Date;
             let oldDate = new Date;
@@ -184,6 +194,7 @@ export const useContractStore = defineStore({
                                 class: 'Creator',
                                 role: 'Creator',
                                 identifier: 'creatorId',
+                                address: 'Old Address',
                                 metadata: {
                                     "rdfs:label": 'Creator v2'
                                 },
@@ -281,6 +292,7 @@ export const useContractStore = defineStore({
                                 class: 'Creator',
                                 role: 'Creator',
                                 identifier: 'creatorId',
+                                address: 'New address',
                                 metadata: {
                                     "rdfs:label": 'Name Surname'
                                 },

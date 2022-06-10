@@ -9,7 +9,7 @@ import { Contract } from '../types/ContractTypes.interface';
 const tableHeaders = ['Name', 'Status', 'Created', 'Last Edited', 'Creator']
 const { loggedInUser } = storeToRefs(useUserStore())
 const contractStore = useContractStore();    
-const { getContractsBelongingToTheUser, selectedContract } = storeToRefs(useContractStore());
+const { getContractsBelongingToTheUser } = storeToRefs(useContractStore());
 
 const getCreatedDate = contractStore.getCreatedDate; 
 const getLastModifiedDate = contractStore.getLastModifiedDate; 
@@ -20,10 +20,6 @@ function createItem() {
 
 function deleteContract(name: string) {
     contractStore.deleteContract(name)
-}
-
-function setSelectedContract(name: string) {
-    contractStore.setSelectedContract(name)
 }
 
 </script>
@@ -38,7 +34,7 @@ function setSelectedContract(name: string) {
         </thead>
         <tbody>
             <tr v-for="contract in getContractsBelongingToTheUser" :key='contract.name'>
-                <td><RouterLink :to="`/contract/${contract.name}`" @click="setSelectedContract(contract.name)">{{ contract.name }}</RouterLink></td>
+                <td><RouterLink :to="`/contract/${contract.name}`">{{ contract.name }}</RouterLink></td>
                 <td>{{ contract.versions[0].status }}</td>
                 <td>{{ getCreatedDate(contract.name) }}</td>
                 <td>{{ getLastModifiedDate(contract.name) }}</td>

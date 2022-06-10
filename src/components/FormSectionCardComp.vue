@@ -2,35 +2,16 @@
 import { ref } from 'vue';
 const props = defineProps({
     data: Object,
-    objtype: String,
-    contractName: String,
-    versionNumber: Number,
-    mainVersionNumber: Number
+    comparedData: Object,
+    objtype: String
 })
 
 const matcher = {
     "unchanged" : "",
     "added"     : "border-success border-5",
     "removed"   : "border-danger border-5",
-    "modified"  : "border-warning  border-5"
+    "modified"  : "border-warning border-5"
 }
-
-const propagateFurtherChanges = ref<Boolean>();
-propagateFurtherChanges.value = false;
-
-function appendClass() {
-    if (props.mainVersionNumber === props.versionNumber) {
-        propagateFurtherChanges.value = false
-        return ""
-    } else {
-        if (props.data.modifiedState === "modified")
-            propagateFurtherChanges.value = true
-
-        return matcher[props.data.modifiedState];
-    }
-}
-
-
 </script>
 
 <script lang="ts">
@@ -42,7 +23,7 @@ library.add(faXmark)
 </script>
 
 <template>
-<div class="container-fluid mb-4 justify-content-md-center border border-secondary rounded" :class="appendClass()">
+<div class="container-fluid mb-4 justify-content-md-center border border-secondary rounded">
     <div class="d-flex justify-content-end">
         <button type="button" class="btn">
             <span class="btn-label"><font-awesome-icon :icon="['fas', 'pen']" /></span>
@@ -52,6 +33,6 @@ library.add(faXmark)
         </button>
     </div>
     <div></div>
-    <component :is="objtype+'Comp'" :data="data" :changesArePropagated="propagateFurtherChanges" :contractName="contractName" :versionNumber="versionNumber" :mainVersionNumber="mainVersionNumber" />
+    <component :is="objtype+'Comp'" :data="data"/>
 </div>
 </template>

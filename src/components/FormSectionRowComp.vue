@@ -1,12 +1,28 @@
 <script setup lang="ts">
 import FormSectionCardComp from "../components/FormSectionCardComp.vue"
+
 const props = defineProps({
     data: Object,
+    comparedData: Object,
     objtype: String,
-    contractName: String,
-    versionNumber: Number,
-    mainVersionNumber: Number
+    requiresComparison: Boolean,
+    addedOrRemoved: String
 })
+
+function getClassModifier() {
+    if (!props.requiresComparison)
+        return ""
+    if (!props.addedOrRemoved)
+        return ""
+
+    else if (props.addedOrRemoved === "added")
+        return "border border-success border-3"
+    else if (props.addedOrRemoved === "removed")
+        return "border border-danger border-3"
+    else
+        return "border border-info border-3"
+}
+
 </script>
 
 <script lang="ts">
@@ -26,7 +42,11 @@ library.add(faCircleInfo)
 
     </div>
     <div class="col-lg-8">
-        <FormSectionCardComp :contractName="contractName" :versionNumber="versionNumber" :mainVersionNumber="mainVersionNumber" :data="data" :objtype="objtype"/>
+        <FormSectionCardComp 
+            :class="getClassModifier()"
+            :data="data" 
+            :comparedData="comparedData" 
+            :objtype="objtype"/>
     </div>
 </div>
 </template>

@@ -21,12 +21,13 @@ library.add(faCircleInfo)
 
 <template>
 <div :class="appendClass()">
-    {{ title }} : 
-    <span v-if="props.newText">{{ props.newText }}</span>
-    <span v-else><em>N/A</em></span>
+    <span v-if="title">{{ title }} : </span>
     
-    <span v-if="props.oldText !== props.newText"> 
-        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="'changed from: ' + props.oldText" :icon="['fas', 'circle-info']" />
+    <span v-if="newText">{{ newText }}</span>
+    <span v-else><em>N/A</em></span>
+
+    <span v-if="oldText !== newText"> 
+        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="'changed from: ' + oldText" :icon="['fas', 'circle-info']" />
     </span>
 </div>
 </template> 
