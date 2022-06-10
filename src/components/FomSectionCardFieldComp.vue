@@ -8,7 +8,11 @@ const props = defineProps({
 function appendClass() {
     if (props.oldText === props.newText)
         return "";
-    else 
+    else if (props.oldText === undefined)
+        return "border border-success border-3";
+    else if (props.newText === undefined)
+        return "border border-danger border-3";
+    else
         return "border border-warning border-3";
 }
 </script>

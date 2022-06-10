@@ -19,7 +19,12 @@ const additionalDataToPropagate = props.comparedData ? {
         "deontics": props.comparedData.deontics,
         "actions": props.comparedData.actions
     }
-} : {}
+} : {
+    "oldData": {
+        "deontics": props.data.deontics,
+        "actions": props.data.actions
+    }
+}
 
 function getComparedParty(partyId: string): Party {
     if (!props.comparedData)
@@ -113,7 +118,8 @@ function getAddedIPOs(): IPObject[] {
             addedOrRemoved="added"
             :data="item"
             :comparedData="getComparedParty(item.identifier)" 
-            :requiresComparison="true" />
+            :requiresComparison="true"
+            :propagatedAdditionalData="additionalDataToPropagate"/>
 
         <h2>Intellectual Property</h2>
         <FormSectionRowComp v-for="item in data.ipObjects" :key="item" 
@@ -131,6 +137,7 @@ function getAddedIPOs(): IPObject[] {
             addedOrRemoved="added"
             :data="item"
             :comparedData="getComparedIPO(item.identifier)" 
-            :requiresComparison="true" />
+            :requiresComparison="true"
+            :propagatedAdditionalData="additionalDataToPropagate"/>
     </div>
 </template>

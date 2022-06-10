@@ -278,7 +278,17 @@ export const useContractStore = defineStore({
                                 ]
                             }
                         ],
-                        actions: [],
+                        actions: [
+                            {
+                                "class": "Provide",
+                                "type": "Provide",
+                                "identifier": "a5",
+                                "actedBy": "http://mpeg.org/Publisher",
+                                "actedOver": [
+                                "http://mpeg.org/Song"
+                                ]
+                            },
+                        ],
                         ipObjects: [],
                         signedBy: ['Creator'],
                         requiredSignatures: ['Creator', 'Streaming Service'],
