@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useContractStore } from '../stores/contract'
-import { Party } from '../types/ContractTypes.interface';
 import Field from './FomSectionCardFieldComp.vue'
 
 const props = defineProps({
     data: Object,
+    comparedData: Object,
     changesArePropagated: Boolean
 })
-
-const contractStore = useContractStore();
-const getDeonticByName = contractStore.getDeonticByName;
-const newParty = ref<Party>();
 
 // if (props.changesArePropagated)
 //     newParty.value = contractStore.getPartyFromVersion(props.contractName, props.mainVersionNumber, props.data.identifier);
@@ -21,11 +15,14 @@ const newParty = ref<Party>();
 <template>
 <div>
     <div class="row">
+        <Field :newText="changesArePropagated ? comparedData.metadata['rdfs:label'] : data.metadata['rdfs:label']" :oldText="data.metadata['rdfs:label']" title="Name"/>
+    </div>
+    <div class="row">
         <div class="col">
-            <Field :newText="changesArePropagated && newParty ? newParty.class : data.class" :oldText="data.class" title="Role"/>
+            <Field :newText="changesArePropagated ? comparedData.class : data.class" :oldText="data.class" title="Role"/>
         </div>
         <div class="col">
-            <Field :newText="changesArePropagated && newParty? newParty.address : data.address" :oldText="data.address" title="Address"/>
+            <Field :newText="changesArePropagated ? comparedData.address: data.address" :oldText="data.address" title="Address"/>
         </div>
     </div>
     <span v-if="data.deonticsIssued && data.deonticsIssued.length > 0">

@@ -16,11 +16,11 @@ function getClassModifier() {
         return ""
 
     else if (props.addedOrRemoved === "added")
-        return "border border-success border-3"
+        return "border-success border-3"
     else if (props.addedOrRemoved === "removed")
-        return "border border-danger border-3"
+        return "border-danger border-3"
     else
-        return "border border-info border-3"
+        return "border-info border-3"
 }
 
 </script>
@@ -37,7 +37,7 @@ library.add(faCircleInfo)
         <p><span>
                 <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="data.identifier" :icon="['fas', 'circle-info']" />
             </span> 
-            {{ data.metadata["rdfs:label"] }}
+            {{ data.identifier }}
         </p>
 
     </div>
@@ -46,6 +46,7 @@ library.add(faCircleInfo)
             :class="getClassModifier()"
             :data="data" 
             :comparedData="comparedData" 
+            :propagateChanges="requiresComparison && !addedOrRemoved"
             :objtype="objtype"/>
     </div>
 </div>

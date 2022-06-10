@@ -18,7 +18,7 @@ function getComparedParty(partyId: string): Party {
     if (!props.comparedData.parties)
         return undefined
 
-    let party = props.data.parties.find((party) => party.identifier === partyId);
+    let party = props.comparedData.parties.find((party) => party.identifier === partyId);
     return party;
 }
 
@@ -29,7 +29,7 @@ function getComparedIPO(ipoId: string) {
     if (!props.comparedData.ipObjects)
         return undefined
 
-    let ipo = props.data.ipObjects.find((ipo) => ipo.identifier === ipoId);
+    let ipo = props.comparedData.ipObjects.find((ipo) => ipo.identifier === ipoId);
     return ipo;
 }
 
@@ -86,7 +86,8 @@ function getAddedIPOs(): IPObject[] {
 
 <template>
     <h1 class="text-center">Contract: {{ contractName }}</h1>
-    <h3 class="text-center">Version: {{ data.versionNumber }}</h3>
+    <h3 v-if="comparedData" class="text-center">Changes from version: {{ data.versionNumber }} to {{ comparedData.versionNumber }}</h3>
+    <h3 v-else class="text-center">Version: {{ data.versionNumber }}</h3>
     <div class="col-lg-9">
         <h2>Parties</h2>
         <FormSectionRowComp v-for="item in data.parties" :key="item" 

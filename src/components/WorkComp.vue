@@ -1,9 +1,7 @@
 <script setup lang="ts">
 const props = defineProps({
     data: Object,
-    contractName: String,
-    versionNumber: Number,
-    mainVersionNumber: Number,
+    comparedData: Object,
     changesArePropagated: Boolean
 })
 </script>

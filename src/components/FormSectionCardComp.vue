@@ -3,15 +3,9 @@ import { ref } from 'vue';
 const props = defineProps({
     data: Object,
     comparedData: Object,
-    objtype: String
+    objtype: String,
+    propagateChanges: Boolean
 })
-
-const matcher = {
-    "unchanged" : "",
-    "added"     : "border-success border-5",
-    "removed"   : "border-danger border-5",
-    "modified"  : "border-warning border-5"
-}
 </script>
 
 <script lang="ts">
@@ -33,6 +27,10 @@ library.add(faXmark)
         </button>
     </div>
     <div></div>
-    <component :is="objtype+'Comp'" :data="data"/>
+    <component 
+        :is="objtype+'Comp'" 
+        :data="data" 
+        :comparedData="comparedData" 
+        :changesArePropagated="propagateChanges"/>
 </div>
 </template>
