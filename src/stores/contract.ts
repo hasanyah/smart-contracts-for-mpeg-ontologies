@@ -156,6 +156,21 @@ export const useContractStore = defineStore({
                             {
                                 class: "Obligation",
                                 type: "Obligation",
+                                identifier: "o1",
+                                metadata: {
+                                    "rdfs:label": "Publisher provide a song to streaming"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/Publisher",
+                                act: "http://mpeg.org/action5",
+                                actedBySubject: "http://mpeg.org/Publisher",
+                                actObjects: [
+                                    "http://mpeg.org/Song"
+                                ]
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
                                 identifier: "o4",
                                 metadata: {
                                 "rdfs:label": "Streaming service pays 10% to publisher"
@@ -178,6 +193,69 @@ export const useContractStore = defineStore({
                                 actedBySubject: "http://mpeg.org/StreamingService"
                             },
                             {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o6",
+                                metadata: {
+                                    "rdfs:label": "Streaming service must pay 50% to Aggregator"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay4",
+                                actedBySubject: "http://mpeg.org/StreamingService"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o7",
+                                metadata: {
+                                    "rdfs:label": "Aggregator must pay 85% to Record Label"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay5",
+                                actedBySubject: "http://mpeg.org/Aggregator"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o8",
+                                metadata: {
+                                    "rdfs:label": "Indie label must pay 10-50% to Author"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay6",
+                                actedBySubject: "http://mpeg.org/RecordLabel"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o9",
+                                metadata: {
+                                    "rdfs:label": "Mechanical License Agent must pay to Publisher"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay7",
+                                actedBySubject: "http://mpeg.org/MechanicalLicenseAgent"
+                            },
+                            {
+                                class: "MCOPermission",
+                                type: "MCOPermission",
+                                identifier: "p1",
+                                metadata: {
+                                    "rdfs:label": "Consumer can play a song"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/action1",
+                                actedBySubject: "http://mpeg.org/Consumer",
+                                actObjects: [
+                                    "http://mpeg.org/Song"
+                                ]
+                            },
+                            {
                                 class: "MCOPermission",
                                 type: "MCOPermission",
                                 identifier: "p4",
@@ -191,30 +269,15 @@ export const useContractStore = defineStore({
                                 actObjects: [
                                 "http://mpeg.org/Song"
                                 ]
-                            },
-                            {
-                                class: "Obligation",
-                                type: "Obligation",
-                                identifier: "o1",
-                                metadata: {
-                                "rdfs:label": "Publisher provide a song to streaming"
-                                },
-                                issuedIn: "http://mpeg.org/contract2",
-                                issuer: "http://mpeg.org/Publisher",
-                                act: "http://mpeg.org/action5",
-                                actedBySubject: "http://mpeg.org/Publisher",
-                                actObjects: [
-                                "http://mpeg.org/Song"
-                                ]
                             }
                         ],
                         actions: [
                             {
-                                "class": "Provide",
-                                "type": "Provide",
-                                "identifier": "a5",
-                                "actedBy": "http://mpeg.org/Publisher",
-                                "actedOver": [
+                                class: "Provide",
+                                type: "Provide",
+                                identifier: "a5",
+                                actedBy: "http://mpeg.org/Publisher",
+                                actedOver: [
                                 "http://mpeg.org/Song"
                                 ]
                             },
@@ -274,9 +337,36 @@ export const useContractStore = defineStore({
                             {
                                 class: "Obligation",
                                 type: "Obligation",
+                                identifier: "o1",
+                                metadata: {
+                                "rdfs:label": "Publisher provide a song to streaming"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/Publisher",
+                                act: "http://mpeg.org/action5",
+                                actedBySubject: "http://mpeg.org/Publisher",
+                                actObjects: [
+                                "http://mpeg.org/Song"
+                                ]
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o3",
+                                metadata: {
+                                "rdfs:label": "Consumer pays a fixed rate"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/Consumer",
+                                act: "http://mpeg.org/pay1",
+                                actedBySubject: "http://mpeg.org/Consumer"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
                                 identifier: "o4",
                                 metadata: {
-                                "rdfs:label": "Streaming service pays 10% to publisher"
+                                "rdfs:label": "Streaming service pays 15% to publisher"
                                 },
                                 issuedIn: "http://mpeg.org/contract2",
                                 issuer: "http://mpeg.org/StreamingService",
@@ -296,6 +386,69 @@ export const useContractStore = defineStore({
                                 actedBySubject: "http://mpeg.org/StreamingService"
                             },
                             {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o6",
+                                metadata: {
+                                "rdfs:label": "Streaming service must pay 50% to Aggregator"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay4",
+                                actedBySubject: "http://mpeg.org/StreamingService"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o7",
+                                metadata: {
+                                "rdfs:label": "Aggregator must pay 85% to Record Label"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay5",
+                                actedBySubject: "http://mpeg.org/Aggregator"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o8",
+                                metadata: {
+                                "rdfs:label": "Indie label must pay 10-50% to Author"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay6",
+                                actedBySubject: "http://mpeg.org/RecordLabel"
+                            },
+                            {
+                                class: "Obligation",
+                                type: "Obligation",
+                                identifier: "o9",
+                                metadata: {
+                                "rdfs:label": "Mechanical License Agent must pay to Publisher"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/pay7",
+                                actedBySubject: "http://mpeg.org/MechanicalLicenseAgent"
+                            },
+                            {
+                                class: "MCOPermission",
+                                type: "MCOPermission",
+                                identifier: "p1",
+                                metadata: {
+                                "rdfs:label": "Consumer can play a song"
+                                },
+                                issuedIn: "http://mpeg.org/contract2",
+                                issuer: "http://mpeg.org/StreamingService",
+                                act: "http://mpeg.org/action1",
+                                actedBySubject: "http://mpeg.org/Consumer",
+                                actObjects: [
+                                "http://mpeg.org/Song"
+                                ]
+                            },
+                            {
                                 class: "MCOPermission",
                                 type: "MCOPermission",
                                 identifier: "p4",
@@ -309,24 +462,28 @@ export const useContractStore = defineStore({
                                 actObjects: [
                                 "http://mpeg.org/Song"
                                 ]
+                            }
+                        ],
+                        actions: [
+                            {
+                                class: "Play",
+                                type: "Play",
+                                identifier: "a1",
+                                actedBy: "http://mpeg.org/Consumer",
+                                actedOver: [
+                                "http://mpeg.org/Song"
+                                ]
                             },
                             {
-                                class: "Obligation",
-                                type: "Obligation",
-                                identifier: "o1",
-                                metadata: {
-                                "rdfs:label": "Publisher provide a song to streaming"
-                                },
-                                issuedIn: "http://mpeg.org/contract2",
-                                issuer: "http://mpeg.org/Publisher",
-                                act: "http://mpeg.org/action5",
-                                actedBySubject: "http://mpeg.org/Publisher",
-                                actObjects: [
+                                class: "Provide",
+                                type: "Provide",
+                                identifier: "a5",
+                                actedBy: "http://mpeg.org/Publisher",
+                                actedOver: [
                                 "http://mpeg.org/Song"
                                 ]
                             }
                         ],
-                        actions: [],
                         ipObjects: [
                             {
                                 class: 'Work',

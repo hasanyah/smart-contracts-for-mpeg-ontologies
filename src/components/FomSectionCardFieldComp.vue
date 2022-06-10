@@ -1,16 +1,16 @@
 <script setup lang="ts">
 const props = defineProps({
-    oldText: String,
-    newText: String,
+    viewedText: String,
+    comparedText: String,
     title: String
 })
 
 function appendClass() {
-    if (props.oldText === props.newText)
+    if (props.viewedText === props.comparedText)
         return "";
-    else if (props.oldText === undefined)
+    else if (props.viewedText === undefined)
         return "border border-success border-3";
-    else if (props.newText === undefined)
+    else if (props.comparedText === undefined)
         return "border border-danger border-3";
     else
         return "border border-warning border-3";
@@ -27,11 +27,11 @@ library.add(faCircleInfo)
 <div :class="appendClass()">
     <span v-if="title">{{ title }} : </span>
     
-    <span v-if="newText">{{ newText }}</span>
+    <span v-if="comparedText">{{ comparedText }}</span>
     <span v-else><em>N/A</em></span>
 
-    <span v-if="oldText !== newText"> 
-        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="'changed from: ' + oldText" :icon="['fas', 'circle-info']" />
+    <span v-if="viewedText !== comparedText"> 
+        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" :title="'changed from: ' + viewedText" :icon="['fas', 'circle-info']" />
     </span>
 </div>
 </template> 

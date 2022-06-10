@@ -4,7 +4,8 @@ const props = defineProps({
     comparedData: Object,
     objtype: String,
     propagateChanges: Boolean,
-    propagatedAdditionalData: Object
+    propagatedAdditionalData: Object,
+    recentlyAdded: Boolean
 })
 </script>
 
@@ -18,7 +19,7 @@ library.add(faXmark)
 
 <template>
 <div class="container-fluid mb-4 justify-content-md-center border border-secondary rounded">
-    <div class="d-flex justify-content-end">
+    <!-- <div class="d-flex justify-content-end">
         <button type="button" class="btn">
             <span class="btn-label"><font-awesome-icon :icon="['fas', 'pen']" /></span>
         </button>
@@ -26,12 +27,13 @@ library.add(faXmark)
             <span class="btn-label"><font-awesome-icon :icon="['fas', 'xmark']" /></span>
         </button>
     </div>
-    <div></div>
+    <div></div> -->
     <component 
         :is="objtype+'Comp'" 
         :data="data" 
         :comparedData="comparedData" 
         :changesArePropagated="propagateChanges"
-        :propagatedAdditionalData="propagatedAdditionalData"/>
+        :propagatedAdditionalData="propagatedAdditionalData"
+        :recentlyAdded="recentlyAdded"/>
 </div>
 </template>

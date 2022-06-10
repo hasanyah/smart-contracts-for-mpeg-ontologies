@@ -11,16 +11,16 @@ const props = defineProps({
 const addedParties = getAddedParties()
 const addedIPOs = getAddedIPOs()
 const additionalDataToPropagate = props.comparedData ? {
-    "oldData": {
+    "viewedVersionData": {
         "deontics": props.data.deontics,
         "actions": props.data.actions
     },
-    "newData": {
+    "comparedVersionData": {
         "deontics": props.comparedData.deontics,
         "actions": props.comparedData.actions
     }
 } : {
-    "oldData": {
+    "viewedVersionData": {
         "deontics": props.data.deontics,
         "actions": props.data.actions
     }
@@ -117,7 +117,6 @@ function getAddedIPOs(): IPObject[] {
             objtype="Party"
             addedOrRemoved="added"
             :data="item"
-            :comparedData="getComparedParty(item.identifier)" 
             :requiresComparison="true"
             :propagatedAdditionalData="additionalDataToPropagate"/>
 
@@ -135,8 +134,7 @@ function getAddedIPOs(): IPObject[] {
             v-for="item in addedIPOs" :key="item.identifier" 
             objtype="Work"
             addedOrRemoved="added"
-            :data="item"
-            :comparedData="getComparedIPO(item.identifier)" 
+            :data="item" 
             :requiresComparison="true"
             :propagatedAdditionalData="additionalDataToPropagate"/>
     </div>

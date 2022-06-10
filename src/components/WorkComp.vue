@@ -3,7 +3,8 @@ const props = defineProps({
     data: Object,
     comparedData: Object,
     changesArePropagated: Boolean,
-    propagatedAdditionalData: Object
+    propagatedAdditionalData: Object,
+    recentlyAdded: Boolean
 })
 </script>
 

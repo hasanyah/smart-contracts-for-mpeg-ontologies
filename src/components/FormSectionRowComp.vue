@@ -48,6 +48,7 @@ library.add(faCircleInfo)
             :data="data" 
             :comparedData="comparedData" 
             :propagateChanges="requiresComparison && !addedOrRemoved"
+            :recentlyAdded="addedOrRemoved === 'added'"
             :objtype="objtype"
             :propagatedAdditionalData="propagatedAdditionalData"/>
     </div>
