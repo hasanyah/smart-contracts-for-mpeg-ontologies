@@ -50,8 +50,9 @@ export const useContractStore = defineStore({
         getContractsBelongingToTheUser(): Contract[] {
             console.log("Getting contracts belonging to the user")
             const userStore = useUserStore()
+            let loggedInUser = userStore.loggedInUser
             let contracts = this.localContracts.filter((contract) => {
-                return contract.creator === userStore.loggedInUser;
+                return contract.creator === loggedInUser || contract.versions.at(-1).requiredSignatures.includes(loggedInUser);
             });
             return contracts;
         },
