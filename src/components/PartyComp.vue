@@ -14,17 +14,9 @@ const props = defineProps({
 
 <template>
 <div>
-    <div class="row">
-        <Field :newText="changesArePropagated ? comparedData.metadata['rdfs:label'] : data.metadata['rdfs:label']" :oldText="data.metadata['rdfs:label']" title="Name"/>
-    </div>
-    <div class="row">
-        <div class="col">
-            <Field :newText="changesArePropagated ? comparedData.class : data.class" :oldText="data.class" title="Role"/>
-        </div>
-        <div class="col">
-            <Field :newText="changesArePropagated ? comparedData.address: data.address" :oldText="data.address" title="Address"/>
-        </div>
-    </div>
+    <Field :newText="changesArePropagated ? comparedData.metadata['rdfs:label'] : data.metadata['rdfs:label']" :oldText="data.metadata['rdfs:label']" title="Name"/>
+    <Field :newText="changesArePropagated ? comparedData.class : data.class" :oldText="data.class" title="Role"/>
+    <Field :newText="changesArePropagated ? comparedData.address: data.address" :oldText="data.address" title="Address"/>
     <span v-if="data.deonticsIssued && data.deonticsIssued.length > 0">
         <p><strong>Deontics Issued: </strong></p>
         <ul>
