@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { Contract, Version, VersionSummary, Party, IPObject } from '../types/ContractTypes.interface'
-import { versions } from 'process'
-import { faDownLeftAndUpRightToCenter } from '@fortawesome/free-solid-svg-icons'
 
 function isPartyEqual(pLeft: Party, pRight: Party): Boolean {
     return (
@@ -83,75 +81,6 @@ export const useContractStore = defineStore({
                 return version;
             }
         },
-        getDeonticByName: (state) => {
-            return (contractID: string, versionId: number, deonticId: string): string => {
-                console.log("Getting deontics for contract: " + contractID + " and number: " + versionId + " and deo:" + deonticId)
-                let contract = findContractByName(contractID, state.localContracts);
-                let version = findVersionByNumber(versionId, contract);
-                let deontic = version.deontics.find((deontic) => deontic.identifier === deonticId);
-                if (deontic)
-                    return deontic.metadata["rdfs:label"];
-                else
-                    return deonticId;
-                                
-            }
-        },
-        getPartyFromVersion: (state) => {
-            return (contractID: string, versionId: number, partyId: string, ): Party => {
-                console.log("Getting party for contract: " + contractID + " and number: " + versionId + " and deo:" + partyId)
-                let contract = state.localContracts.find((contract) => contract.name === contractID);
-                let version = contract.versions.find((version) => version.versionNumber === versionId);
-                let party = version.parties.find((party) => party.identifier === partyId);
-                return party;                
-            }
-        },
-        getComparableMergedData: (state) => {
-            return (
-                    contractName: string, 
-                    newVersionName: number, 
-                    oldVersionName: number
-                ): Version => {
-                let mergedComparableVersion: Version = {}
-                mergedComparableVersion.parties = []
-                let contract = state.localContracts.find((contract) => contract.name === contractName);
-                let newVersion = contract.versions.find((version) => version.versionNumber === newVersionName);
-                let oldVersion = contract.versions.find((version) => version.versionNumber === oldVersionName);
-
-                newVersion.parties.forEach((party) => {
-                    let partyInNewVersion = newVersion.parties.find((p) => { return p.identifier == party.identifier });
-                    let partyInOldVersion = oldVersion.parties.find((p) => { return p.identifier == party.identifier });
-
-                    let modifiedState = ""
-                    if (!partyInOldVersion)
-                        modifiedState = "added"
-                    else if (isPartyEqual(partyInNewVersion, partyInOldVersion))
-                        modifiedState = "unchanged"
-                    else
-                        modifiedState = "modified"
-
-                    party.modifiedState = modifiedState
-                    mergedComparableVersion.parties.push(party)
-                });
-
-                oldVersion.parties.forEach((party) => {
-                    let partyInNewVersion = newVersion.parties.find((p) => { return p.identifier == party.identifier });
-                    let partyInOldVersion = oldVersion.parties.find((p) => { return p.identifier == party.identifier });
-                    let modifiedState = ""
-                    if (!partyInNewVersion) {
-                        modifiedState = "removed"
-                        party.modifiedState = modifiedState
-                        mergedComparableVersion.parties.push(party)
-                    }
-                });
-                mergedComparableVersion.ipObjects = []
-                newVersion.ipObjects.forEach((ipObject) => {
-                    mergedComparableVersion.ipObjects.push(ipObject)
-                });
-
-
-                return mergedComparableVersion;
-            }
-        }
     },
     actions: {
         deleteContract(name: string) {
