@@ -4,11 +4,9 @@ import Field from './FomSectionCardFieldComp.vue'
 const props = defineProps({
     data: Object,
     comparedData: Object,
-    changesArePropagated: Boolean
+    changesArePropagated: Boolean,
+    propagatedAdditionalData: Object
 })
-
-// if (props.changesArePropagated)
-//     newParty.value = contractStore.getPartyFromVersion(props.contractName, props.mainVersionNumber, props.data.identifier);
 
 </script>
 

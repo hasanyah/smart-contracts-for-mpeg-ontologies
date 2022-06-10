@@ -10,6 +10,16 @@ const props = defineProps({
 
 const addedParties = getAddedParties()
 const addedIPOs = getAddedIPOs()
+const additionalDataToPropagate = props.comparedData ? {
+    "oldData": {
+        "deontics": props.data.deontics,
+        "actions": props.data.actions
+    },
+    "newData": {
+        "deontics": props.comparedData.deontics,
+        "actions": props.comparedData.actions
+    }
+} : {}
 
 function getComparedParty(partyId: string): Party {
     if (!props.comparedData)
@@ -80,8 +90,6 @@ function getAddedIPOs(): IPObject[] {
     });
     return addedIPOs
 }
-
-
 </script>
 
 <template>
@@ -95,7 +103,8 @@ function getAddedIPOs(): IPObject[] {
             :addedOrRemoved="isPartyRemoved(item.identifier)"
             :data="item"
             :comparedData="getComparedParty(item.identifier)" 
-            :requiresComparison="comparedData !== undefined" />
+            :requiresComparison="comparedData !== undefined"
+            :propagatedAdditionalData="additionalDataToPropagate"/>
         <!-- Insert the parties that exist in the compared version but does not exist in the version that is being viewed -->
         <FormSectionRowComp 
             v-if="comparedData && addedParties.length > 0"
@@ -112,7 +121,8 @@ function getAddedIPOs(): IPObject[] {
             :addedOrRemoved="isIPORemoved(item.identifier)"
             :data="item"
             :comparedData="getComparedIPO(item.identifier)" 
-            :requiresComparison="comparedData !== undefined" />
+            :requiresComparison="comparedData !== undefined"
+            :propagatedAdditionalData="additionalDataToPropagate"/>
         <!-- Insert the IPOs that exist in the compared version but does not exist in the version that is being viewed -->
         <FormSectionRowComp 
             v-if="comparedData && addedIPOs.length > 0"

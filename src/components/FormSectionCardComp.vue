@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 const props = defineProps({
     data: Object,
     comparedData: Object,
     objtype: String,
-    propagateChanges: Boolean
+    propagateChanges: Boolean,
+    propagatedAdditionalData: Object
 })
 </script>
 
@@ -31,6 +31,7 @@ library.add(faXmark)
         :is="objtype+'Comp'" 
         :data="data" 
         :comparedData="comparedData" 
-        :changesArePropagated="propagateChanges"/>
+        :changesArePropagated="propagateChanges"
+        :propagatedAdditionalData="propagatedAdditionalData"/>
 </div>
 </template>

@@ -6,7 +6,8 @@ const props = defineProps({
     comparedData: Object,
     objtype: String,
     requiresComparison: Boolean,
-    addedOrRemoved: String
+    addedOrRemoved: String,
+    propagatedAdditionalData: Object
 })
 
 function getClassModifier() {
@@ -47,7 +48,8 @@ library.add(faCircleInfo)
             :data="data" 
             :comparedData="comparedData" 
             :propagateChanges="requiresComparison && !addedOrRemoved"
-            :objtype="objtype"/>
+            :objtype="objtype"
+            :propagatedAdditionalData="propagatedAdditionalData"/>
     </div>
 </div>
 </template>
