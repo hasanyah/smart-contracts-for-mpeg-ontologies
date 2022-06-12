@@ -17,14 +17,16 @@ const versions = ref<VersionSummary[]>()
 versions.value = contractStore.getVersionListByContractName(viewedContractId);
 
 const comparedVersionNumber = ref<number>(0)
-const comparedVersion = computed(()=>contractStore.getVersionByNumber(viewedContractId, comparedVersionNumber.value));
+const comparedVersion = ref<Version>()
 
 function setComparedVersion(num: number) {
-    comparedVersionNumber.value = num 
+    if (num === -1)
+        comparedVersion.value = contractToView.value.versions.at(-1);
+    else
+        comparedVersion.value = contractToView.value.versions.find((version) => version.versionNumber === num);
+    
 }
-
 setComparedVersion(-1);
-
 </script>
 
 <script lang="ts">
