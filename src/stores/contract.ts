@@ -22,7 +22,11 @@ function findContractByName(contractName: string, arrayOfContracts: Contract[]) 
 
 function findVersionByNumber(versionNumber: number, contract: Contract) {
     console.log("Getting version by number: " + versionNumber)
-    let version = contract.versions.find((version) => version.versionNumber === versionNumber);
+    let version;
+    if (versionNumber === -1)
+        version = contract.versions.at(-1);
+    else
+        version = contract.versions.find((version) => version.versionNumber === versionNumber);
     return version;
 }
 
@@ -111,34 +115,25 @@ export const useContractStore = defineStore({
                         versionNumber : 0,
                         parties: [
                             {
-                                class: 'OldCreator',
-                                role: 'OldCreator',
-                                identifier: 'oldCreatorId',
+                                class: 'Creator',
+                                role: 'Creator',
+                                identifier: 'removedCreatorId',
+                                address: 'Removed Creator Address',
                                 metadata: {
-                                    "rdfs:label": 'Creator v1'
+                                    "rdfs:label": 'This creator is removed in the new version'
                                 },
                                 deonticsIssued: ['p4'],
-                                actionsIsSubject: [],
+                                actionsIsSubject: ['a5'],
                             },
                             {
                                 class: 'Creator',
                                 role: 'Creator',
-                                identifier: 'creatorId',
-                                address: 'Old Address',
+                                identifier: 'unchangedCreatorId',
+                                address: 'Unchanged creator address',
                                 metadata: {
-                                    "rdfs:label": 'Creator v2'
+                                    "rdfs:label": 'Unchanged Creator'
                                 },
                                 deonticsIssued: ['p4'],
-                                actionsIsSubject: [],
-                            },
-                            {
-                                class: 'Distributor',
-                                role: 'Distributor',
-                                identifier: 'distributorId',
-                                metadata: {
-                                    "rdfs:label": 'Dist v1'
-                                },
-                                deonticsIssued: ['p4', 'o1'],
                                 actionsIsSubject: ['a5'],
                             },
                             {
@@ -146,28 +141,23 @@ export const useContractStore = defineStore({
                                 role: 'Distributor',
                                 identifier: 'streamingServiceId',
                                 metadata: {
-                                    "rdfs:label": 'Streaming Service'
+                                    "rdfs:label": 'Unchanged Streaming Service'
                                 },
-                                deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'o9', 'p1'],
-                                actionsIsSubject: ['a2', 'p2', 'p3', 'p4'],
+                                deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'p1'],
+                                actionsIsSubject: ['a2'],
+                            },
+                            {
+                                class: 'Distributor',
+                                role: 'Distributor',
+                                identifier: 'secondStreamingServiceId',
+                                metadata: {
+                                    "rdfs:label": 'Changed Streaming Service with old text'
+                                },
+                                deonticsIssued: ['o7', 'o8', 'o9', 'p1'],
+                                actionsIsSubject: ['a2'],
                             }
                         ],
                         deontics: [
-                            {
-                                class: "Obligation",
-                                type: "Obligation",
-                                identifier: "o1",
-                                metadata: {
-                                    "rdfs:label": "Publisher provide a song to streaming"
-                                },
-                                issuedIn: "http://mpeg.org/contract2",
-                                issuer: "http://mpeg.org/Publisher",
-                                act: "http://mpeg.org/action5",
-                                actedBySubject: "http://mpeg.org/Publisher",
-                                actObjects: [
-                                    "http://mpeg.org/Song"
-                                ]
-                            },
                             {
                                 class: "Obligation",
                                 type: "Obligation",
@@ -275,6 +265,15 @@ export const useContractStore = defineStore({
                             {
                                 class: "Provide",
                                 type: "Provide",
+                                identifier: "a2",
+                                actedBy: "http://mpeg.org/Publisher",
+                                actedOver: [
+                                "http://mpeg.org/Song"
+                                ]
+                            },
+                            {
+                                class: "Provide",
+                                type: "Provide",
                                 identifier: "a5",
                                 actedBy: "http://mpeg.org/Publisher",
                                 actedOver: [
@@ -294,22 +293,12 @@ export const useContractStore = defineStore({
                             {
                                 class: 'Creator',
                                 role: 'Creator',
-                                identifier: 'creatorId',
-                                address: 'New address',
+                                identifier: 'unchangedCreatorId',
+                                address: 'Unchanged creator address',
                                 metadata: {
-                                    "rdfs:label": 'Name Surname'
+                                    "rdfs:label": 'Unchanged Creator'
                                 },
                                 deonticsIssued: ['p4'],
-                                actionsIsSubject: [],
-                            },
-                            {
-                                class: 'Distributor',
-                                role: 'Distributor',
-                                identifier: 'distributorId',
-                                metadata: {
-                                    "rdfs:label": 'Name Surname (Dist)'
-                                },
-                                deonticsIssued: ['p4', 'o1'],
                                 actionsIsSubject: ['a5'],
                             },
                             {
@@ -317,56 +306,40 @@ export const useContractStore = defineStore({
                                 role: 'Distributor',
                                 identifier: 'streamingServiceId',
                                 metadata: {
-                                    "rdfs:label": 'Streaming Service'
+                                    "rdfs:label": 'Unchanged Streaming Service'
                                 },
                                 deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'o9', 'p1'],
-                                actionsIsSubject: ['a2', 'p2', 'p3', 'p4'],
+                                actionsIsSubject: ['a2'],
                             },
                             {
-                                class: 'EndUser',
-                                role: 'EndUser',
-                                identifier: 'endUserId',
+                                class: 'Creator',
+                                role: 'Creator',
+                                identifier: 'addedCreatorId',
+                                address: 'Added creator address',
                                 metadata: {
-                                    "rdfs:label": 'Consumer'
+                                    "rdfs:label": 'Added Creator'
                                 },
-                                deonticsIssued: ['o3'],
-                                actionsIsSubject: ['a1', 'p1'],
+                                deonticsIssued: ['p4'],
+                                actionsIsSubject: ['a5'],
+                            },
+                            {
+                                class: 'Distributor',
+                                role: 'Distributor',
+                                identifier: 'secondStreamingServiceId',
+                                metadata: {
+                                    "rdfs:label": 'Changed Streaming Service with new text'
+                                },
+                                deonticsIssued: ['o5', 'o6', 'o9', 'p1'],
+                                actionsIsSubject: ['a2'],
                             }
                         ],
                         deontics: [
                             {
                                 class: "Obligation",
                                 type: "Obligation",
-                                identifier: "o1",
-                                metadata: {
-                                "rdfs:label": "Publisher provide a song to streaming"
-                                },
-                                issuedIn: "http://mpeg.org/contract2",
-                                issuer: "http://mpeg.org/Publisher",
-                                act: "http://mpeg.org/action5",
-                                actedBySubject: "http://mpeg.org/Publisher",
-                                actObjects: [
-                                "http://mpeg.org/Song"
-                                ]
-                            },
-                            {
-                                class: "Obligation",
-                                type: "Obligation",
-                                identifier: "o3",
-                                metadata: {
-                                "rdfs:label": "Consumer pays a fixed rate"
-                                },
-                                issuedIn: "http://mpeg.org/contract2",
-                                issuer: "http://mpeg.org/Consumer",
-                                act: "http://mpeg.org/pay1",
-                                actedBySubject: "http://mpeg.org/Consumer"
-                            },
-                            {
-                                class: "Obligation",
-                                type: "Obligation",
                                 identifier: "o4",
                                 metadata: {
-                                "rdfs:label": "Streaming service pays 15% to publisher"
+                                "rdfs:label": "Streaming service pays 10% to publisher"
                                 },
                                 issuedIn: "http://mpeg.org/contract2",
                                 issuer: "http://mpeg.org/StreamingService",
@@ -390,7 +363,7 @@ export const useContractStore = defineStore({
                                 type: "Obligation",
                                 identifier: "o6",
                                 metadata: {
-                                "rdfs:label": "Streaming service must pay 50% to Aggregator"
+                                    "rdfs:label": "Streaming service must pay 50% to Aggregator"
                                 },
                                 issuedIn: "http://mpeg.org/contract2",
                                 issuer: "http://mpeg.org/StreamingService",
@@ -402,7 +375,7 @@ export const useContractStore = defineStore({
                                 type: "Obligation",
                                 identifier: "o7",
                                 metadata: {
-                                "rdfs:label": "Aggregator must pay 85% to Record Label"
+                                    "rdfs:label": "Aggregator must pay 85% to Record Label"
                                 },
                                 issuedIn: "http://mpeg.org/contract2",
                                 issuer: "http://mpeg.org/StreamingService",
@@ -414,7 +387,7 @@ export const useContractStore = defineStore({
                                 type: "Obligation",
                                 identifier: "o8",
                                 metadata: {
-                                "rdfs:label": "Indie label must pay 10-50% to Author"
+                                    "rdfs:label": "Indie label must pay 10-50% to Author"
                                 },
                                 issuedIn: "http://mpeg.org/contract2",
                                 issuer: "http://mpeg.org/StreamingService",
@@ -426,7 +399,7 @@ export const useContractStore = defineStore({
                                 type: "Obligation",
                                 identifier: "o9",
                                 metadata: {
-                                "rdfs:label": "Mechanical License Agent must pay to Publisher"
+                                    "rdfs:label": "The text here has been changed"
                                 },
                                 issuedIn: "http://mpeg.org/contract2",
                                 issuer: "http://mpeg.org/StreamingService",
@@ -438,14 +411,14 @@ export const useContractStore = defineStore({
                                 type: "MCOPermission",
                                 identifier: "p1",
                                 metadata: {
-                                "rdfs:label": "Consumer can play a song"
+                                    "rdfs:label": "Consumer can play a song"
                                 },
                                 issuedIn: "http://mpeg.org/contract2",
                                 issuer: "http://mpeg.org/StreamingService",
                                 act: "http://mpeg.org/action1",
                                 actedBySubject: "http://mpeg.org/Consumer",
                                 actObjects: [
-                                "http://mpeg.org/Song"
+                                    "http://mpeg.org/Song"
                                 ]
                             },
                             {
@@ -466,10 +439,10 @@ export const useContractStore = defineStore({
                         ],
                         actions: [
                             {
-                                class: "Play",
-                                type: "Play",
-                                identifier: "a1",
-                                actedBy: "http://mpeg.org/Consumer",
+                                class: "Provide",
+                                type: "Provide",
+                                identifier: "a2",
+                                actedBy: "http://mpeg.org/Publisher",
                                 actedOver: [
                                 "http://mpeg.org/Song"
                                 ]
@@ -482,7 +455,7 @@ export const useContractStore = defineStore({
                                 actedOver: [
                                 "http://mpeg.org/Song"
                                 ]
-                            }
+                            },
                         ],
                         ipObjects: [
                             {

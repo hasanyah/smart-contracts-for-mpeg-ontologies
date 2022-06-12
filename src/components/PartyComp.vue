@@ -17,9 +17,9 @@ function getDeonticFromViewedVersion(deonticId: string): string {
         deontic = props.propagatedAdditionalData.viewedVersionData.deontics.find((deontic) => deontic.identifier === deonticId);
     
     if (deontic)
-        return deontic.metadata["rdfs:label"];
+        return deontic.identifier + ' ' + deontic.metadata["rdfs:label"];
     else
-        return deonticId;
+        return undefined;
 }
 
 function getDeonticFromComparedVersion(deonticId: string): string {
@@ -28,9 +28,9 @@ function getDeonticFromComparedVersion(deonticId: string): string {
     else {
         let deontic = props.propagatedAdditionalData.comparedVersionData.deontics.find((deontic) => deontic.identifier === deonticId);
         if (deontic)
-            return deontic.metadata["rdfs:label"];
+            return deontic.identifier + ' ' + deontic.metadata["rdfs:label"];
         else
-            return deonticId;
+            return undefined;
     }
         
 }
@@ -42,8 +42,12 @@ function getActionFromViewedVersion(actionId: string): string {
     else
         action = props.propagatedAdditionalData.viewedVersionData.actions.find((action) => action.identifier === actionId);
 
-    if (action)
-        return action.type + " - " + action.actedOver.join(',');
+    if (action) {
+        if (action.type === "Payment")
+            return action.identifier + ' ' + action.actedBy + " - " + action.type + " - " + action.beneficiaries.join(',') + " - " + action.incomePercentage ? action.incomePercentage : action.amount;
+        else
+            return action.identifier + ' ' + action.actedBy + " - " + action.type + " - " + action.actedOver.join(',');
+    }
     else
         return undefined;
 }
@@ -53,8 +57,12 @@ function getActionFromComparedVersion(actionId: string): string {
         return getActionFromViewedVersion(actionId)
     else {
         let action = props.propagatedAdditionalData.comparedVersionData.actions.find((action) => action.identifier === actionId);
-        if (action)
-            return action.type + " - " + action.actedOver.join(',');
+        if (action) {
+            if (action.type === "Payment")
+                return action.identifier + ' ' + action.actedBy + " - " + action.type + " - " + action.beneficiaries.join(',') + " - " + action.incomePercentage ? action.incomePercentage : action.amount;
+            else
+                return action.identifier + ' ' + action.actedBy + " - " + action.type + " - " + action.actedOver.join(',');
+        }
         else
             return undefined
     }

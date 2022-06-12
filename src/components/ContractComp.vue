@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import { IPObject, Party } from '../types/ContractTypes.interface';
 import FormSectionRowComp from './FormSectionRowComp.vue';
 
@@ -8,9 +9,11 @@ const props = defineProps({
     contractName: String
 })
 
-const addedParties = getAddedParties()
-const addedIPOs = getAddedIPOs()
-const additionalDataToPropagate = props.comparedData ? {
+const addedParties = computed(getAddedParties)
+const addedIPOs = computed(getAddedIPOs)
+
+const additionalDataToPropagate = ref<{}>()
+additionalDataToPropagate.value = props.comparedData ? {
     "viewedVersionData": {
         "deontics": props.data.deontics,
         "actions": props.data.actions
@@ -24,6 +27,11 @@ const additionalDataToPropagate = props.comparedData ? {
         "deontics": props.data.deontics,
         "actions": props.data.actions
     }
+}
+
+if (props.comparedData) {
+    console.log(props.data.contractName)
+    console.log(additionalDataToPropagate.value["viewedVersionData"]["deontics"])
 }
 
 function getComparedParty(partyId: string): Party {

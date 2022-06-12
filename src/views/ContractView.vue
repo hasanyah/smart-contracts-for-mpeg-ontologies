@@ -23,6 +23,8 @@ function setComparedVersion(num: number) {
     comparedVersionNumber.value = num 
 }
 
+setComparedVersion(-1);
+
 </script>
 
 <script lang="ts">
