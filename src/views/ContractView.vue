@@ -37,7 +37,9 @@ library.add(faCirclePlus)
 
 <template>
     <div class="row">
-        <ContractComp :data="contractToView.versions.at(-1)" :contractName="contractToView.name"/>
+        <div class="col-lg-9">
+            <ContractComp :data="contractToView.versions.at(-1)" :contractName="contractToView.name"/>
+        </div>
         <div class="col-lg-3">
             <div>
                 <h3>Royalties Distribution</h3>

@@ -105,41 +105,40 @@ function getAddedIPOs(): IPObject[] {
     <h1 class="text-center">Contract: {{ contractName }}</h1>
     <h3 v-if="comparedData" class="text-center">Changes from version: {{ data.versionNumber }} to {{ comparedData.versionNumber }}</h3>
     <h3 v-else class="text-center">Version: {{ data.versionNumber }}</h3>
-    <div class="col-lg-9">
-        <h2>Parties</h2>
-        <FormSectionRowComp v-for="item in data.parties" :key="item" 
-            objtype="Party"
-            :addedOrRemoved="isPartyRemoved(item.identifier)"
-            :data="item"
-            :comparedData="getComparedParty(item.identifier)" 
-            :requiresComparison="comparedData !== undefined"
-            :propagatedAdditionalData="additionalDataToPropagate"/>
-        <!-- Insert the parties that exist in the compared version but does not exist in the version that is being viewed -->
-        <FormSectionRowComp 
-            v-if="comparedData && addedParties.length > 0"
-            v-for="item in addedParties" :key="item.identifier" 
-            objtype="Party"
-            addedOrRemoved="added"
-            :data="item"
-            :requiresComparison="true"
-            :propagatedAdditionalData="additionalDataToPropagate"/>
+    
+    <h2>Parties</h2>
+    <FormSectionRowComp v-for="item in data.parties" :key="item" 
+        objtype="Party"
+        :addedOrRemoved="isPartyRemoved(item.identifier)"
+        :data="item"
+        :comparedData="getComparedParty(item.identifier)" 
+        :requiresComparison="comparedData !== undefined"
+        :propagatedAdditionalData="additionalDataToPropagate"/>
+    <!-- Insert the parties that exist in the compared version but does not exist in the version that is being viewed -->
+    <FormSectionRowComp 
+        v-if="comparedData && addedParties.length > 0"
+        v-for="item in addedParties" :key="item.identifier" 
+        objtype="Party"
+        addedOrRemoved="added"
+        :data="item"
+        :requiresComparison="true"
+        :propagatedAdditionalData="additionalDataToPropagate"/>
 
-        <h2>Intellectual Property</h2>
-        <FormSectionRowComp v-for="item in data.ipObjects" :key="item" 
-            objtype="Work" 
-            :addedOrRemoved="isIPORemoved(item.identifier)"
-            :data="item"
-            :comparedData="getComparedIPO(item.identifier)" 
-            :requiresComparison="comparedData !== undefined"
-            :propagatedAdditionalData="additionalDataToPropagate"/>
-        <!-- Insert the IPOs that exist in the compared version but does not exist in the version that is being viewed -->
-        <FormSectionRowComp 
-            v-if="comparedData && addedIPOs.length > 0"
-            v-for="item in addedIPOs" :key="item.identifier" 
-            objtype="Work"
-            addedOrRemoved="added"
-            :data="item" 
-            :requiresComparison="true"
-            :propagatedAdditionalData="additionalDataToPropagate"/>
-    </div>
+    <h2>Intellectual Property</h2>
+    <FormSectionRowComp v-for="item in data.ipObjects" :key="item" 
+        objtype="Work" 
+        :addedOrRemoved="isIPORemoved(item.identifier)"
+        :data="item"
+        :comparedData="getComparedIPO(item.identifier)" 
+        :requiresComparison="comparedData !== undefined"
+        :propagatedAdditionalData="additionalDataToPropagate"/>
+    <!-- Insert the IPOs that exist in the compared version but does not exist in the version that is being viewed -->
+    <FormSectionRowComp 
+        v-if="comparedData && addedIPOs.length > 0"
+        v-for="item in addedIPOs" :key="item.identifier" 
+        objtype="Work"
+        addedOrRemoved="added"
+        :data="item" 
+        :requiresComparison="true"
+        :propagatedAdditionalData="additionalDataToPropagate"/>
 </template>
