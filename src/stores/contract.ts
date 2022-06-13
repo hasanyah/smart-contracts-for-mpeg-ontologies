@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
-import { Contract, Version, VersionSummary, Party, IPObject } from '../types/ContractTypes.interface'
+import { Contract, Version, VersionSummary, Party } from '../types/ContractTypes.interface'
+import _ from 'lodash'
 
 function isPartyEqual(pLeft: Party, pRight: Party): Boolean {
     return (
@@ -34,7 +35,10 @@ export const useContractStore = defineStore({
     id: 'contract',
     state: () => ({
         localContracts: [],
-        versionCount: 0
+        versionCount: 0,
+        partyCount: 0,
+        ipoCount: 0,
+        versionUnderEdit: {} as Version
     }),
     getters: {
         getCreatedDate: (state) => {
@@ -93,14 +97,30 @@ export const useContractStore = defineStore({
                 return contract.name !== name;
             });
         },
-        // addParty(party: Party) {
-        //     let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
-        //     contract.versions.at(-1).parties.push(party)
-        // },
-        // addIPObject(ipObject: IPObject) {
-        //     let contract = this.localContracts.find((contract) => contract.name === this.selectedContract);
-        //     contract.versions.at(-1).ipObjects.push(ipObject)
-        // },
+        setVersionUnderEdit(version: Version) {
+            this.versionUnderEdit = _.cloneDeep(version);
+        },
+        addParty() {
+            this.versionUnderEdit.parties.push({
+                class: "Party",
+                role: "Party",
+                identifier: "party"+this.partyCount,
+                address: "party"+this.partyCount+"address",
+                metadata: {"rdfs:label" : "party"+this.partyCount},
+                deonticsIssued: [],
+                actionsIsSubject: []
+            })
+            this.partyCount++
+        },
+        addIPO() {
+            this.versionUnderEdit.ipObjects.push({
+                class: "Work",
+                type: "Work",
+                identifier: "Song"+this.ipoCount,
+                metadata: {"rdfs:label": "New Song " + this.ipoCount}
+            })
+            this.ipoCount++
+        },
         createNewContract() {
             let currentDate = new Date;
             let oldDate = new Date;

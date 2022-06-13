@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useContractStore } from "../stores/contract";
-import { Contract, Version, VersionSummary } from "../types/ContractTypes.interface";
-import { storeToRefs } from "pinia";
+import { Contract, Version } from "../types/ContractTypes.interface";
 import ModalContractVersionComparator from "../components/ModalContractVersionComparator.vue"
+import ModalCreateContractVersion from "../components/ModalCreateContractVersion.vue"
 import ContractComp from "../components/ContractComp.vue"
 import {useRoute} from 'vue-router'
 
@@ -13,10 +13,8 @@ const contractStore = useContractStore();
 const contractToView = ref<Contract>();
 contractToView.value = contractStore.getContractByName(viewedContractId);
 
-const versions = ref<VersionSummary[]>()
-versions.value = contractStore.getVersionListByContractName(viewedContractId);
+const versions = computed(() => contractStore.getVersionListByContractName(viewedContractId))
 
-const comparedVersionNumber = ref<number>(0)
 const comparedVersion = ref<Version>()
 
 function setComparedVersion(num: number) {
@@ -27,6 +25,10 @@ function setComparedVersion(num: number) {
     
 }
 setComparedVersion(-1);
+
+function createNewVersion(){
+    contractStore.setVersionUnderEdit(contractToView.value.versions.at(-1))
+}
 </script>
 
 <script lang="ts">
@@ -39,6 +41,7 @@ library.add(faCirclePlus)
     <div class="row">
         <div class="col-lg-9">
             <ContractComp :data="contractToView.versions.at(-1)" :contractName="contractToView.name"/>
+            <button data-bs-toggle="modal" data-bs-target="#VersionCreatorModal" @click="createNewVersion">Edit</button>
         </div>
         <div class="col-lg-3">
             <div>
@@ -65,4 +68,5 @@ library.add(faCirclePlus)
         </div>
     </div>
     <ModalContractVersionComparator id="VersionComparatorModal" :data="comparedVersion" :comparedData="contractToView.versions.at(-1)" :contractName="contractToView.name"/>
+    <ModalCreateContractVersion id="VersionCreatorModal" :contractName="contractToView.name"/>
 </template>
