@@ -308,7 +308,7 @@ export const useContractStore = defineStore({
                                 metadata: {
                                     "rdfs:label": 'Unchanged Streaming Service'
                                 },
-                                deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'o9', 'p1'],
+                                deonticsIssued: ['o4', 'o5', 'o6', 'o7', 'o8', 'p1'],
                                 actionsIsSubject: ['a2'],
                             },
                             {

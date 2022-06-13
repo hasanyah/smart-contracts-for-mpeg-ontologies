@@ -30,11 +30,6 @@ const additionalDataToPropagate = computed(() =>
     }
 )
 
-if (props.comparedData) {
-    console.log(props.data.contractName)
-    console.log(additionalDataToPropagate.value["viewedVersionData"]["deontics"])
-}
-
 function getComparedParty(partyId: string): Party {
     if (!props.comparedData)
         return undefined
