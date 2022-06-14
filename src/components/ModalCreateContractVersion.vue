@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useContractStore } from "../stores/contract";
 import { storeToRefs } from "pinia";
+import EPC from "./EditablePartyComp.vue";
+import EIC from "./EditableIPOComp.vue";
 
 const props = defineProps({
     contractName: String
@@ -15,6 +17,22 @@ function addParty() {
 
 function addIPO() {
     contractStore.addIPO()
+}
+
+function deleteParty(partyId: string) {
+    contractStore.deleteParty(partyId)
+}
+
+function deleteIPO(ipoId: string) {
+    console.log("delete"+ipoId)
+}
+
+function updateParty(partyId: string) {
+    console.log("update"+partyId)
+}
+
+function updateIPO(ipoId: string) {
+    console.log("update"+ipoId)
 }
 </script>
 
@@ -40,11 +58,21 @@ library.add(faCirclePlus)
                         <button type="button" class="btn btn-labeled" @click="addParty">
                             <span class="btn-label"><font-awesome-icon :icon="['fas', 'circle-plus']" /></span>
                         </button>
-                        <p v-for="party in versionUnderEdit.parties" :key="party.identifier">{{ party.metadata["rdfs:label"] }}</p>
+                        <EPC v-for="party in versionUnderEdit.parties" :key="party.identifier" 
+                            :data="party" 
+                            :deontics="versionUnderEdit.deontics"
+                            :actions="versionUnderEdit.actions"
+                            @party-deleted="deleteParty"
+                            @party-updated="updateParty"/>
                     </div>
                     <div>
                         <h3>Intellectual Properties</h3>
-                        <p v-for="ipo in versionUnderEdit.ipObjects" :key="ipo.identifier">{{ ipo.metadata["rdfs:label"] }}</p>
+                        <EIC v-for="ipo in versionUnderEdit.ipObjects" :key="ipo.identifier" 
+                            :data="ipo"
+                            :deontics="versionUnderEdit.deontics"
+                            :actions="versionUnderEdit.actions"
+                            @ipo-deleted="deleteIPO"
+                            @ipo-updated="updateIPO" />
                         <button type="button" class="btn btn-labeled" @click="addIPO">
                             <span class="btn-label"><font-awesome-icon :icon="['fas', 'circle-plus']" /></span>
                         </button>

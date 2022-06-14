@@ -121,6 +121,43 @@ export const useContractStore = defineStore({
             })
             this.ipoCount++
         },
+        deleteParty(partyId: string) {
+            // remove dangling deontics and actions
+            let otherDeonticsAndActions = {"deontics": [], "actions": []}
+            this.versionUnderEdit.parties.forEach(party => {
+                if (party.identifier !== partyId) {
+                    console.log("Adding other stuff")
+                    console.log("Adding Deontics: " + party.deonticsIssued)
+                    console.log("Adding Actions: " + party.actionsIsSubject)
+                    otherDeonticsAndActions.deontics = otherDeonticsAndActions.deontics.concat(party.deonticsIssued)
+                    otherDeonticsAndActions.actions = otherDeonticsAndActions.actions.concat(party.actionsIsSubject)
+                }
+            });
+            console.log("Other Deontics etc")
+            console.log(otherDeonticsAndActions)
+            let selectedParty = this.versionUnderEdit.parties.find((party) => party.identifier === partyId)
+            selectedParty.deonticsIssued.forEach(deontic => {
+                console.log("Checking " + deontic)
+                if (!otherDeonticsAndActions.deontics.includes(deontic)) {
+                    console.log("This is not included, removing")
+                    this.versionUnderEdit.deontics = this.versionUnderEdit.deontics.filter((d) => {
+                        return d.identifier !== deontic
+                    })
+                }
+            });
+            selectedParty.actionsIsSubject.forEach(action => {
+                console.log("Checking " + action)
+                if (!otherDeonticsAndActions.actions.includes(action)) {
+                    console.log("This is not included, removing")
+                    this.versionUnderEdit.actions = this.versionUnderEdit.actions.filter((d) => {
+                        return d.identifier !== action
+                    })
+                }
+            });
+            this.versionUnderEdit.parties = this.versionUnderEdit.parties.filter((party) => {
+                return party.identifier !== partyId
+            })
+        },
         createNewContract() {
             let currentDate = new Date;
             let oldDate = new Date;
